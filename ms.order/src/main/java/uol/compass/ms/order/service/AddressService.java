@@ -20,6 +20,11 @@ public class AddressService {
 
         Cep cep = ViaCepClient.findCep(cepRecebido);
 
+        if (cep.getCep() == null) {
+            // Tratar erro
+            throw new RuntimeException("CEP Invalido");
+        }
+
         addressToCreate.setStreet(cep.getLogradouro());
         addressToCreate.setNumber(number);
         addressToCreate.setDistrict(cep.getBairro());
