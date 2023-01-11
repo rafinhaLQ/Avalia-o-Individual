@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import uol.compass.ms.order.model.dto.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.OrderResponseDTO;
-import uol.compass.ms.order.service.OrderServiceImpl;
+import uol.compass.ms.order.service.impl.OrderServiceImpl;
 
 @RestController
 @RequiredArgsConstructor

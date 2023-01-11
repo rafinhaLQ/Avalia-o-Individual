@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.model.entities.AddressEntity;
 import uol.compass.ms.order.repositories.AddressRepository;
+import uol.compass.ms.order.service.impl.AddressServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressServiceTest {
@@ -22,7 +23,7 @@ public class AddressServiceTest {
     public static final String CEP = "40140650";
     
     @InjectMocks
-    private AddressService addressService;
+    private AddressServiceImpl addressService;
 
     @Mock
     private AddressRepository addressRepository;
