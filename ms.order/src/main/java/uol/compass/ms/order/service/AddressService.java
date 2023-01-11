@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.gtbr.ViaCepClient;
 import com.gtbr.domain.Cep;
+import com.gtbr.utils.CEPUtils;
 
 import lombok.RequiredArgsConstructor;
+import uol.compass.ms.order.exceptions.InvalidCepException;
 import uol.compass.ms.order.model.entities.AddressEntity;
 import uol.compass.ms.order.repositories.AddressRepository;
 
@@ -16,13 +18,16 @@ public class AddressService {
     private final AddressRepository addressRepository;
 
     public AddressEntity createAddressWithCep(String cepRecebido, Integer number) {
+        if(addressRepository.findByCepAndNumber(CEPUtils.mascararCep(cepRecebido), number) != null) {
+            return addressRepository.findByCepAndNumber(CEPUtils.mascararCep(cepRecebido), number);
+        }
+
         AddressEntity addressToCreate = new AddressEntity();
 
         Cep cep = ViaCepClient.findCep(cepRecebido);
 
         if (cep.getCep() == null) {
-            // Tratar erro
-            throw new RuntimeException("CEP Invalido");
+            throw new InvalidCepException();
         }
 
         addressToCreate.setStreet(cep.getLogradouro());
