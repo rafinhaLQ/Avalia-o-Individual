@@ -1,5 +1,7 @@
 package uol.compass.ms.order.model.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ public class OrderResponseDTO {
 
     private String cpf;
 
-    private ItemEntity items;
+    private List<ItemEntity> items;
 
     private Double total;
 

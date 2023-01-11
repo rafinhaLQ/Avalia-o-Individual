@@ -1,5 +1,8 @@
 package uol.compass.ms.order.model.dto;
 
+import java.util.List;
+
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,8 +21,9 @@ public class OrderRequestDTO {
     @Size(min = 11, max = 11)
     private String cpf;
 
+    @NotEmpty
     @NotNull
-    private Long idItem;
+    private List<ItemRequestDTO> items;
 
     @NotNull
     private Double total;

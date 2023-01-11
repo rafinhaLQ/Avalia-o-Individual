@@ -1,10 +1,13 @@
 package uol.compass.ms.order.model.entities;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,10 +28,9 @@ public class OrderEntity {
 
     private String cpf;
 
-    // Array
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "items_id")
-    private ItemEntity items;
+    private List<ItemEntity> items;
 
     private Double total;
 
