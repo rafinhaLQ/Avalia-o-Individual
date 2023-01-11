@@ -18,7 +18,7 @@ import uol.compass.ms.order.repositories.AddressRepository;
 import uol.compass.ms.order.service.impl.AddressServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
-public class AddressServiceTest {
+public class AddressServiceImplTest {
 
     public static final String CEP = "40140650";
     
