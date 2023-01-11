@@ -1,4 +1,4 @@
-package uol.compass.ms.order.model;
+package uol.compass.ms.order.model.entities;
 
 import java.time.LocalDate;
 

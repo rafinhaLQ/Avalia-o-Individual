@@ -1,4 +1,4 @@
-package uol.compass.ms.order.model;
+package uol.compass.ms.order.model.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +29,7 @@ public class OrderEntity {
     @JoinColumn(name = "items_id")
     private ItemEntity items;
 
-    private Long total;
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "address_id")

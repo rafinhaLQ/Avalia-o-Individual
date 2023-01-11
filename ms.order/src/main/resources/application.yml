@@ -13,3 +13,7 @@ spring:
                 ddl-auto: create
                 dialect: org.hibernate.dialect.MySQL8Dialect
         defer-datasource-initialization: true
+
+server:
+    servlet:
+        context-path: /api

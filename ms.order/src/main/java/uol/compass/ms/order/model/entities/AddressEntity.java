@@ -1,4 +1,4 @@
-package uol.compass.ms.order.model;
+package uol.compass.ms.order.model.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
