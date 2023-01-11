@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import uol.compass.ms.order.model.dto.OrderRequestDTO;
-import uol.compass.ms.order.model.dto.OrderResponseDTO;
+import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.service.impl.OrderServiceImpl;
 
 @RestController

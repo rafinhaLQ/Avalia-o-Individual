@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import uol.compass.ms.order.exceptions.InvalidCepException;
 import uol.compass.ms.order.model.constants.ErrorCode;
-import uol.compass.ms.order.model.dto.ExceptionResponseDTO;
+import uol.compass.ms.order.model.dto.response.ExceptionResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;

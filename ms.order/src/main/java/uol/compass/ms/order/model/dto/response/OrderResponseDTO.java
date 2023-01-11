@@ -1,12 +1,10 @@
-package uol.compass.ms.order.model.dto;
+package uol.compass.ms.order.model.dto.response;
 
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uol.compass.ms.order.model.entities.AddressEntity;
-import uol.compass.ms.order.model.entities.ItemEntity;
 
 @Data
 @AllArgsConstructor
@@ -17,10 +15,10 @@ public class OrderResponseDTO {
 
     private String cpf;
 
-    private List<ItemEntity> items;
+    private List<ItemResponseDTO> items;
 
     private Double total;
 
-    private AddressEntity address;
+    private AddressResponseDTO address;
 
 }
