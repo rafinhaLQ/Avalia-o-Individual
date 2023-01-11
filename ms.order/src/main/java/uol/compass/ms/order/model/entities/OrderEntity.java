@@ -25,6 +25,7 @@ public class OrderEntity {
 
     private String cpf;
 
+    // Array
     @ManyToOne
     @JoinColumn(name = "items_id")
     private ItemEntity items;
