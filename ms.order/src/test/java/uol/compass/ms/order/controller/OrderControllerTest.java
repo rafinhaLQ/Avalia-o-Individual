@@ -30,6 +30,8 @@ public class OrderControllerTest {
     
     public static final String BASE_URL = "/pedidos";
 
+    public static final String ID_URL = BASE_URL + "/1";
+
     @Autowired
     private MockMvc mvc;
 
@@ -68,6 +70,23 @@ public class OrderControllerTest {
                 .perform(MockMvcRequestBuilders.get(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
                     .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    void findById() throws Exception {
+        OrderResponseDTO responseDTO = ScenarioBuilder.buildOrderResponseDTO();
+
+        when(orderService.findById(any())).thenReturn(responseDTO);
+
+        MvcResult result = mvc
+                .perform(MockMvcRequestBuilders.get(ID_URL)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         MockHttpServletResponse response = result.getResponse();

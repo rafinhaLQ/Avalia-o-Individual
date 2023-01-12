@@ -12,7 +12,9 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR("Erro interno do servidor"),
 
     INVALID_CEP("CEP inválido"),
-    INVALID_DATE("O item expira antes de ser criado");
+    INVALID_DATE("O item expira antes de ser criado"),
+    
+    ORDER_NOT_FOUND("Pedido não encontrado");
 
     private final String message;
 

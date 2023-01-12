@@ -1,5 +1,6 @@
 package uol.compass.ms.order.service;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -8,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import uol.compass.ms.order.builder.ScenarioBuilder;
+import uol.compass.ms.order.exceptions.OrderNotFoundException;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.model.entities.AddressEntity;
@@ -33,6 +36,8 @@ import uol.compass.ms.order.service.impl.OrderServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceImplTest {
+
+    public static final Long ID = 1L;
     
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -91,6 +96,25 @@ public class OrderServiceImplTest {
 
         assertNotNull(page);
         assertEquals("09963606547", page.getContent().get(0).getCpf());
+    }
+
+    @Test
+    void shouldFindOrderById_sucess() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+
+        OrderResponseDTO response = orderService.findById(ID);
+
+        assertNotNull(response);
+        assertEquals("09963606547", response.getCpf());
+    }
+
+    @Test
+    void shouldFindOrderById_OrderNotFoundException() {
+        assertThrows(OrderNotFoundException.class, () -> {
+            orderService.findById(ID);
+        });
     }
 
 }

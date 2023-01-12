@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import uol.compass.ms.order.exceptions.InvalidCepException;
 import uol.compass.ms.order.exceptions.InvalidDateException;
+import uol.compass.ms.order.exceptions.OrderNotFoundException;
 import uol.compass.ms.order.model.constants.ErrorCode;
 import uol.compass.ms.order.model.dto.response.ExceptionResponseDTO;
 
@@ -83,6 +84,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleInvalidDateException(InvalidDateException ex) {
         ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.INVALID_DATE, ex);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.ORDER_NOT_FOUND, ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uol.compass.ms.order.exceptions.OrderNotFoundException;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.model.entities.OrderEntity;
@@ -42,6 +43,18 @@ public class OrderServiceImpl implements OrderService {
             orderRepository.findByCpf(cpf, pageable);
         
         return page.map(order -> mapper.map(order, OrderResponseDTO.class));
+    }
+
+    @Override
+    public OrderResponseDTO findById(Long id) {
+        OrderEntity order = getOrderEntity(id);
+
+        return mapper.map(order, OrderResponseDTO.class);
+    }
+
+    private OrderEntity getOrderEntity(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(OrderNotFoundException::new);
     }
     
 }

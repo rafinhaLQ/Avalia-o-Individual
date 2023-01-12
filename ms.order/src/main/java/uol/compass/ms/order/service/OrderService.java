@@ -12,4 +12,6 @@ public interface OrderService {
 
     Page<OrderResponseDTO> findAll(String cpf, Pageable pageable);
 
+    OrderResponseDTO findById(Long id);
+
 }
