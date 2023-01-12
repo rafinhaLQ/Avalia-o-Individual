@@ -1,5 +1,6 @@
 package uol.compass.ms.order.service;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
 import uol.compass.ms.order.builder.ScenarioBuilder;
+import uol.compass.ms.order.exceptions.InvalidDateException;
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.entities.ItemEntity;
 import uol.compass.ms.order.repositories.ItemRepository;
@@ -37,10 +39,8 @@ public class ItemServiceImplTest {
 
     @Test
     void shouldCreateItem_sucess() {
-        ItemRequestDTO request = ScenarioBuilder.builItemRequestDTO();
         ItemEntity item = ScenarioBuilder.buildItemEntity();
-        List<ItemRequestDTO> listRequest = new ArrayList<>();
-        listRequest.add(request);
+        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTO();
 
         when(itemRepository.save(any())).thenReturn(item);
 
@@ -49,6 +49,30 @@ public class ItemServiceImplTest {
         assertNotNull(list);
         assertEquals("Leite", list.get(0).getName());
         verify(itemRepository).save(any());
+    }
+
+    @Test
+    void shouldCreateItem_itemAlreadyExists() {
+        ItemEntity item = ScenarioBuilder.buildItemEntity();
+        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTO();
+
+        when(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(any(), any(), any(), any(), any())).thenReturn(item);
+
+        List<ItemEntity> list = itemService.createItems(listRequest);
+
+        assertNotNull(list);
+        assertEquals("Leite", list.get(0).getName());
+    }
+
+    @Test
+    void shouldCreateItem_InvalidDateException() {
+        ItemRequestDTO request = ScenarioBuilder.builInvalidItemRequestDTO();
+        List<ItemRequestDTO> listRequest = new ArrayList<>();
+        listRequest.add(request);
+
+        assertThrows(InvalidDateException.class, () -> {
+            itemService.createItems(listRequest);
+        });
     }
 
 }
