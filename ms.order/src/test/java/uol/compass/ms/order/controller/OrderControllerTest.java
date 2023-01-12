@@ -4,10 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -51,6 +55,24 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
+
+    @Test
+    void findAll() throws Exception {
+        OrderResponseDTO responseDTO = ScenarioBuilder.buildOrderResponseDTO();
+        Page<OrderResponseDTO> pageDTO = new PageImpl<>(List.of(responseDTO));
+
+        when(orderService.findAll(any(), any())).thenReturn(pageDTO);
+
+        MvcResult result = mvc
+                .perform(MockMvcRequestBuilders.get(BASE_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
 }
