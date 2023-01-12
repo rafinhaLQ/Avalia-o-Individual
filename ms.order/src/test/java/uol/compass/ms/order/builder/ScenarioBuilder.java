@@ -121,7 +121,6 @@ public class ScenarioBuilder {
         return OrderRequestDTO.builder()
             .cpf(CPF)
             .items(buildListOfItemRequestDTOs())
-            .total(TOTAL)
             .cep(CEP_WITHOUT_DASH)
             .number(NUMBER)
             .build();

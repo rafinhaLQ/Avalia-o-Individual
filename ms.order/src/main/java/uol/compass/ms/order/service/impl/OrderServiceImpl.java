@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
         
         orderToCreate.setCpf(request.getCpf());
         orderToCreate.setItems(itemService.createItems(request.getItems()));
-        orderToCreate.setTotal(request.getTotal());
+        orderToCreate.setTotal(itemService.getTotalValue(request.getItems()));
         orderToCreate.setAddress(addressService.createAddressWithCep(request.getCep(), request.getNumber()));
 
         OrderEntity orderCreated = orderRepository.save(orderToCreate);

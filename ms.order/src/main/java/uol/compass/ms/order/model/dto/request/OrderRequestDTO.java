@@ -30,9 +30,6 @@ public class OrderRequestDTO {
     private List<ItemRequestDTO> items;
 
     @NotNull
-    private Double total;
-
-    @NotNull
     @Size(min = 8, max = 8)
     private String cep;
 

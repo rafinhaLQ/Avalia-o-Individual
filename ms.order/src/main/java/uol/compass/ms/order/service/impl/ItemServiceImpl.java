@@ -24,18 +24,21 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemEntity> createItems(List<ItemRequestDTO> items) {
         items.forEach(item -> {
-            if(item.getExpirationDate().isBefore(item.getCreationDate()))
+            if (item.getExpirationDate().isBefore(item.getCreationDate()))
                 throw new InvalidDateException();
         });
 
         List<ItemEntity> itemsAlreadySaved = new ArrayList<>();
         List<ItemEntity> itemsNotSaved = items.stream()
-                        .map(item -> mapper.map(item, ItemEntity.class))
-                        .collect(Collectors.toList());
+                .map(item -> mapper.map(item, ItemEntity.class))
+                .collect(Collectors.toList());
 
         itemsNotSaved.forEach(item -> {
-            if(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(item.getName(), item.getCreationDate(), item.getExpirationDate(), item.getValue(), item.getDescription()) != null) {
-                itemsAlreadySaved.add(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(item.getName(), item.getCreationDate(), item.getExpirationDate(), item.getValue(), item.getDescription()));
+            if (itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(item.getName(),
+                    item.getCreationDate(), item.getExpirationDate(), item.getValue(), item.getDescription()) != null) {
+                itemsAlreadySaved.add(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(
+                        item.getName(), item.getCreationDate(), item.getExpirationDate(), item.getValue(),
+                        item.getDescription()));
             } else {
                 ItemEntity itemJustSaved = itemRepository.save(item);
                 itemsAlreadySaved.add(itemJustSaved);
@@ -44,5 +47,11 @@ public class ItemServiceImpl implements ItemService {
 
         return itemsAlreadySaved;
     }
-    
+
+    public Double getTotalValue(List<ItemRequestDTO> items) {
+        return items.stream()
+                .mapToDouble(ItemRequestDTO::getValue)
+                .sum();
+    }
+
 }

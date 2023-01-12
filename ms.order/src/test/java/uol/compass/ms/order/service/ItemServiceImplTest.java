@@ -75,4 +75,13 @@ public class ItemServiceImplTest {
         });
     }
 
+    @Test
+    void shouldSumValuesOfItems_sucess() {
+        List<ItemRequestDTO> items = ScenarioBuilder.buildListOfItemRequestDTOs();
+
+        Double total = itemService.getTotalValue(items);
+
+        assertEquals(Double.valueOf(3.95), total);
+    }
+
 }
