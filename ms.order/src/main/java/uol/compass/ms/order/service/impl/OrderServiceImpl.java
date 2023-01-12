@@ -1,6 +1,8 @@
 package uol.compass.ms.order.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,15 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderCreated = orderRepository.save(orderToCreate);
 
         return mapper.map(orderCreated, OrderResponseDTO.class);
+    }
+
+    @Override
+    public Page<OrderResponseDTO> findAll(String cpf, Pageable pageable) {
+        Page<OrderEntity> page = cpf == null ?
+            orderRepository.findAll(pageable) :
+            orderRepository.findByCpf(cpf, pageable);
+        
+        return page.map(order -> mapper.map(order, OrderResponseDTO.class));
     }
     
 }
