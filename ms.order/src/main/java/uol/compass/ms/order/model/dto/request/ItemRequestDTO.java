@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,9 +22,11 @@ public class ItemRequestDTO {
     private String name;
 
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
     
     @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expirationDate;
     
     @NotNull

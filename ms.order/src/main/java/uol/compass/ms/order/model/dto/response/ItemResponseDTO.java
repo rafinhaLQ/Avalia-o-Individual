@@ -2,6 +2,8 @@ package uol.compass.ms.order.model.dto.response;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +17,10 @@ public class ItemResponseDTO {
 
     private String name;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate creationDate;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expirationDate;
 
     private Double value;
