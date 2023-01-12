@@ -2,6 +2,7 @@ package uol.compass.ms.order.model.dto.request;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,6 +26,7 @@ public class OrderRequestDTO {
 
     @NotEmpty
     @NotNull
+    @Valid
     private List<ItemRequestDTO> items;
 
     @NotNull
