@@ -34,10 +34,10 @@ public class AddressServiceImplTest {
 
         when(addressRepository.save(any())).thenReturn(address);
 
-        AddressEntity addressToCreate = addressService.createAddressWithCep(CEP, 5);
+        AddressEntity addressEntity = addressService.createAddressWithCep(CEP, 5);
 
-        assertNotNull(addressToCreate);
-        assertEquals("Barra", addressToCreate.getDistrict());
+        assertNotNull(addressEntity);
+        assertEquals("Barra", addressEntity.getDistrict());
         verify(addressRepository).save(any());
     }
 
