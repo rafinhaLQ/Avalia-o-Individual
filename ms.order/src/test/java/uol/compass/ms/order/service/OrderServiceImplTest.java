@@ -3,6 +3,7 @@ package uol.compass.ms.order.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +16,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
@@ -61,6 +65,32 @@ public class OrderServiceImplTest {
         assertNotNull(response);
         assertEquals("09963606547", response.getCpf());
         verify(orderRepository).save(any());
+    }
+
+    @Test
+    void shouldFindAllOrders_sucess() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+        Page<OrderEntity> pageDTO = new PageImpl<>(List.of(order));
+
+        when(orderRepository.findAll((Pageable) any())).thenReturn(pageDTO);
+
+        Page<OrderResponseDTO> page = orderService.findAll(null, any(Pageable.class));
+
+        assertNotNull(page);
+        assertEquals("09963606547", page.getContent().get(0).getCpf());
+    }
+
+    @Test
+    void shouldFindAllOrders_filterWithCpf() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+        Page<OrderEntity> pageDTO = new PageImpl<>(List.of(order));
+
+        when(orderRepository.findByCpf(any(), (Pageable) any())).thenReturn(pageDTO);
+
+        Page<OrderResponseDTO> page = orderService.findAll(anyString(), any(Pageable.class));
+
+        assertNotNull(page);
+        assertEquals("09963606547", page.getContent().get(0).getCpf());
     }
 
 }
