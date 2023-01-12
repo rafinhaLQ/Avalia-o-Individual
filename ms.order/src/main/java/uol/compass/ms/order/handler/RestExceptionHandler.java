@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import uol.compass.ms.order.exceptions.InvalidCepException;
+import uol.compass.ms.order.exceptions.InvalidDateException;
 import uol.compass.ms.order.model.constants.ErrorCode;
 import uol.compass.ms.order.model.dto.response.ExceptionResponseDTO;
 
@@ -75,6 +76,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidCepException.class)
     public final ResponseEntity<Object> handleInvalidCepException(InvalidCepException ex) {
         ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.INVALID_CEP, ex);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(InvalidDateException.class)
+    public final ResponseEntity<Object> handleInvalidDateException(InvalidDateException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.INVALID_DATE, ex);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exceptionResponse);
     }
 

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import uol.compass.ms.order.exceptions.InvalidDateException;
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.entities.ItemEntity;
 import uol.compass.ms.order.repositories.ItemRepository;
@@ -22,6 +23,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemEntity> createItems(List<ItemRequestDTO> items) {
+        items.forEach(item -> {
+            if(item.getExpirationDate().isBefore(item.getCreationDate()))
+                throw new InvalidDateException();
+        });
+
         List<ItemEntity> itemsAlreadySaved = new ArrayList<>();
         List<ItemEntity> itemsNotSaved = items.stream()
                         .map(item -> mapper.map(item, ItemEntity.class))

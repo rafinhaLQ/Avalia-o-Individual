@@ -11,7 +11,8 @@ public enum ErrorCode {
     INVALID_PARAMETER("Paramêtro do pedido inválido"),
     INTERNAL_SERVER_ERROR("Erro interno do servidor"),
 
-    INVALID_CEP("CEP inválido");
+    INVALID_CEP("CEP inválido"),
+    INVALID_DATE("O item expira antes de ser criado");
 
     private final String message;
 
