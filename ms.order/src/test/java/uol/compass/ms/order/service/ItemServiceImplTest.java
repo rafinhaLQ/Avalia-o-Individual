@@ -40,7 +40,7 @@ public class ItemServiceImplTest {
     @Test
     void shouldCreateItem_sucess() {
         ItemEntity item = ScenarioBuilder.buildItemEntity();
-        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTO();
+        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTOs();
 
         when(itemRepository.save(any())).thenReturn(item);
 
@@ -54,7 +54,7 @@ public class ItemServiceImplTest {
     @Test
     void shouldCreateItem_itemAlreadyExists() {
         ItemEntity item = ScenarioBuilder.buildItemEntity();
-        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTO();
+        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTOs();
 
         when(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(any(), any(), any(), any(), any())).thenReturn(item);
 

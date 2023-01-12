@@ -6,6 +6,9 @@ import java.util.List;
 
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.model.dto.response.AddressResponseDTO;
+import uol.compass.ms.order.model.dto.response.ItemResponseDTO;
+import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.model.entities.AddressEntity;
 import uol.compass.ms.order.model.entities.ItemEntity;
 import uol.compass.ms.order.model.entities.OrderEntity;
@@ -14,7 +17,17 @@ public class ScenarioBuilder {
 
     private static final Long ID = 1L;
 
+    private static final String STREET = "Largo do Farol da Barra";
+
     private static final String ITEM_NAME = "Leite";
+
+    private static final String DISTRICT = "Barra";
+
+    private static final String CITY = "Salvador";
+
+    private static final String STATE = "BA";
+
+    private static final String CEP_WITH_DASH = "40140-650";
 
     private static final LocalDate CREATION_DATE = LocalDate.of(2003, 2, 21);
 
@@ -28,19 +41,31 @@ public class ScenarioBuilder {
 
     private static final Double TOTAL = Double.valueOf(25.99);
 
-    private static final String CEP = "40140650";
+    private static final String CEP_WITHOUT_DASH = "40140650";
 
     private static final Integer NUMBER = Integer.valueOf(5);
     
     public static AddressEntity builAddressEntity() {
         return AddressEntity.builder()
             .id(ID)
-            .street("Largo do Farol da Barra")
-            .number(5)
-            .district("Barra")
-            .city("Salvador")
-            .state("BA")
-            .cep("40140-650")
+            .street(STREET)
+            .number(NUMBER)
+            .district(DISTRICT)
+            .city(CITY)
+            .state(STATE)
+            .cep(CEP_WITH_DASH)
+            .build();
+    }
+
+    public static AddressResponseDTO builAddressResponseDTO() {
+        return AddressResponseDTO.builder()
+            .id(ID)
+            .street(STREET)
+            .number(NUMBER)
+            .district(DISTRICT)
+            .city(CITY)
+            .state(STATE)
+            .cep(CEP_WITH_DASH)
             .build();
     }
 
@@ -75,18 +100,29 @@ public class ScenarioBuilder {
             .build();
     }
 
-    public static List<ItemRequestDTO> buildListOfItemRequestDTO() {
+    public static List<ItemRequestDTO> buildListOfItemRequestDTOs() {
         List<ItemRequestDTO> list = new ArrayList<>();
         list.add(builItemRequestDTO());
         return list;
     }
 
+    private static ItemResponseDTO buildItemResponseDTO() {
+        return ItemResponseDTO.builder()
+            .id(ID)
+            .name(ITEM_NAME)
+            .creationDate(CREATION_DATE)
+            .expirationDate(EXPIRATION_DATE)
+            .value(ITEM_VALUE)
+            .description(ITEM_DESCRIPTION)
+            .build();
+    }
+
     public static OrderRequestDTO builOrderRequestDTO() {
         return OrderRequestDTO.builder()
             .cpf(CPF)
-            .items(buildListOfItemRequestDTO())
+            .items(buildListOfItemRequestDTOs())
             .total(TOTAL)
-            .cep(CEP)
+            .cep(CEP_WITHOUT_DASH)
             .number(NUMBER)
             .build();
     }
@@ -104,6 +140,22 @@ public class ScenarioBuilder {
             .items(buildListOfItemEntities())
             .total(TOTAL)
             .address(builAddressEntity())
+            .build();
+    }
+
+    private static List<ItemResponseDTO> buildListOfItemResponseDTOs() {
+        List<ItemResponseDTO> list = new ArrayList<>();
+        list.add(buildItemResponseDTO());
+        return list;
+    }
+
+    public static OrderResponseDTO buildOrderResponseDTO() {
+        return OrderResponseDTO.builder()
+            .id(ID)
+            .cpf(CPF)
+            .items(buildListOfItemResponseDTOs())
+            .total(TOTAL)
+            .address(builAddressResponseDTO())
             .build();
     }
 
