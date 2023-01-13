@@ -1,5 +1,7 @@
 package uol.compass.ms.order.service.impl;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import uol.compass.ms.order.exceptions.OrderNotFoundException;
+import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.model.entities.OrderEntity;
@@ -55,6 +58,12 @@ public class OrderServiceImpl implements OrderService {
     private OrderEntity getOrderEntity(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(OrderNotFoundException::new);
+    }
+
+    @Override
+    public OrderResponseDTO updateItems(Long id, List<ItemRequestDTO> items) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
