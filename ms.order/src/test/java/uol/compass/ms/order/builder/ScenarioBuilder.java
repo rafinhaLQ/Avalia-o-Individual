@@ -3,7 +3,6 @@ package uol.compass.ms.order.builder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.response.AddressResponseDTO;
@@ -44,9 +43,10 @@ public class ScenarioBuilder {
     private static final String CEP_WITHOUT_DASH = "40140650";
 
     private static final Integer NUMBER = Integer.valueOf(5);
-    
+
     public static AddressEntity builAddressEntity() {
-        return AddressEntity.builder()
+        return AddressEntity
+            .builder()
             .id(ID)
             .street(STREET)
             .number(NUMBER)
@@ -58,7 +58,8 @@ public class ScenarioBuilder {
     }
 
     public static AddressResponseDTO builAddressResponseDTO() {
-        return AddressResponseDTO.builder()
+        return AddressResponseDTO
+            .builder()
             .id(ID)
             .street(STREET)
             .number(NUMBER)
@@ -70,7 +71,8 @@ public class ScenarioBuilder {
     }
 
     public static ItemEntity buildItemEntity() {
-        return ItemEntity.builder()
+        return ItemEntity
+            .builder()
             .id(ID)
             .name(ITEM_NAME)
             .creationDate(CREATION_DATE)
@@ -81,7 +83,8 @@ public class ScenarioBuilder {
     }
 
     private static ItemRequestDTO builItemRequestDTO() {
-        return ItemRequestDTO.builder()
+        return ItemRequestDTO
+            .builder()
             .name(ITEM_NAME)
             .creationDate(CREATION_DATE)
             .expirationDate(EXPIRATION_DATE)
@@ -91,7 +94,8 @@ public class ScenarioBuilder {
     }
 
     public static ItemRequestDTO builInvalidItemRequestDTO() {
-        return ItemRequestDTO.builder()
+        return ItemRequestDTO
+            .builder()
             .name(ITEM_NAME)
             .creationDate(EXPIRATION_DATE)
             .expirationDate(CREATION_DATE)
@@ -107,7 +111,8 @@ public class ScenarioBuilder {
     }
 
     private static ItemResponseDTO buildItemResponseDTO() {
-        return ItemResponseDTO.builder()
+        return ItemResponseDTO
+            .builder()
             .id(ID)
             .name(ITEM_NAME)
             .creationDate(CREATION_DATE)
@@ -118,7 +123,8 @@ public class ScenarioBuilder {
     }
 
     public static OrderRequestDTO builOrderRequestDTO() {
-        return OrderRequestDTO.builder()
+        return OrderRequestDTO
+            .builder()
             .cpf(CPF)
             .items(buildListOfItemRequestDTOs())
             .cep(CEP_WITHOUT_DASH)
@@ -133,7 +139,8 @@ public class ScenarioBuilder {
     }
 
     public static OrderEntity buildOrderEntity() {
-        return OrderEntity.builder()
+        return OrderEntity
+            .builder()
             .id(ID)
             .cpf(CPF)
             .items(buildListOfItemEntities())
@@ -149,7 +156,8 @@ public class ScenarioBuilder {
     }
 
     public static OrderResponseDTO buildOrderResponseDTO() {
-        return OrderResponseDTO.builder()
+        return OrderResponseDTO
+            .builder()
             .id(ID)
             .cpf(CPF)
             .items(buildListOfItemResponseDTOs())
@@ -157,5 +165,4 @@ public class ScenarioBuilder {
             .address(builAddressResponseDTO())
             .build();
     }
-
 }

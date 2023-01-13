@@ -1,12 +1,10 @@
 package uol.compass.ms.order.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.gtbr.ViaCepClient;
 import com.gtbr.domain.Cep;
 import com.gtbr.utils.CEPUtils;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import uol.compass.ms.order.exceptions.InvalidCepException;
 import uol.compass.ms.order.model.entities.AddressEntity;
 import uol.compass.ms.order.repositories.AddressRepository;
@@ -20,7 +18,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressEntity createAddressWithCep(String cepRecebido, Integer number) {
-        if(addressRepository.findByCepAndNumber(CEPUtils.mascararCep(cepRecebido), number) != null) {
+        if (addressRepository.findByCepAndNumber(CEPUtils.mascararCep(cepRecebido), number) != null) {
             return addressRepository.findByCepAndNumber(CEPUtils.mascararCep(cepRecebido), number);
         }
 
@@ -41,5 +39,4 @@ public class AddressServiceImpl implements AddressService {
 
         return addressRepository.save(addressToCreate);
     }
-
 }

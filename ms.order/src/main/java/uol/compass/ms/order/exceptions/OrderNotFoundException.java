@@ -1,8 +1,7 @@
 package uol.compass.ms.order.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 import uol.compass.ms.order.model.constants.ErrorCode;
 
 @Getter
@@ -20,5 +19,4 @@ public class OrderNotFoundException extends RuntimeException {
         this.errorCode = ErrorCode.ORDER_NOT_FOUND;
         this.details = ErrorCode.ORDER_NOT_FOUND.getMessage();
     }
-
 }

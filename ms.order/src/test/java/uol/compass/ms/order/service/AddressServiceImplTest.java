@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.exceptions.InvalidCepException;
 import uol.compass.ms.order.model.entities.AddressEntity;
@@ -25,7 +24,7 @@ public class AddressServiceImplTest {
     public static final String CEP = "40140650";
 
     public static final String INVALID_CEP = "40140659";
-    
+
     @InjectMocks
     private AddressServiceImpl addressService;
 
@@ -58,9 +57,11 @@ public class AddressServiceImplTest {
 
     @Test
     void shouldCreateAddress_InvalidCepException() {
-        assertThrows(InvalidCepException.class, () -> {
-            addressService.createAddressWithCep(INVALID_CEP, 5);
-        });
+        assertThrows(
+            InvalidCepException.class,
+            () -> {
+                addressService.createAddressWithCep(INVALID_CEP, 5);
+            }
+        );
     }
-
 }

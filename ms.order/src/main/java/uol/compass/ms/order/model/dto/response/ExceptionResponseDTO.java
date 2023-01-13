@@ -1,11 +1,10 @@
 package uol.compass.ms.order.model.dto.response;
 
+import java.util.Collections;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import uol.compass.ms.order.model.constants.ErrorCode;
-
-import java.util.Collections;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -32,5 +31,4 @@ public class ExceptionResponseDTO {
         this.message = errorCode.getMessage();
         this.details = details;
     }
-
 }

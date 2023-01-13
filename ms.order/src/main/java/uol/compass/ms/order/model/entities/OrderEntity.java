@@ -1,7 +1,6 @@
 package uol.compass.ms.order.model.entities;
 
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +37,4 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private AddressEntity address;
-
 }

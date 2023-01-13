@@ -1,9 +1,7 @@
 package uol.compass.ms.order.model.dto.response;
 
-import java.time.LocalDate;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +26,4 @@ public class ItemResponseDTO {
     private Double value;
 
     private String description;
-
 }

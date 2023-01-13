@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +20,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.exceptions.OrderNotFoundException;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
@@ -38,7 +36,7 @@ import uol.compass.ms.order.service.impl.OrderServiceImpl;
 public class OrderServiceImplTest {
 
     public static final Long ID = 1L;
-    
+
     @InjectMocks
     private OrderServiceImpl orderService;
 
@@ -112,9 +110,11 @@ public class OrderServiceImplTest {
 
     @Test
     void shouldFindOrderById_OrderNotFoundException() {
-        assertThrows(OrderNotFoundException.class, () -> {
-            orderService.findById(ID);
-        });
+        assertThrows(
+            OrderNotFoundException.class,
+            () -> {
+                orderService.findById(ID);
+            }
+        );
     }
-
 }

@@ -1,18 +1,15 @@
 package uol.compass.ms.order.model.dto.request;
 
 import java.util.List;
-
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.br.CPF;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Data
 @Builder
@@ -35,5 +32,4 @@ public class OrderRequestDTO {
 
     @NotNull
     private Integer number;
-
 }

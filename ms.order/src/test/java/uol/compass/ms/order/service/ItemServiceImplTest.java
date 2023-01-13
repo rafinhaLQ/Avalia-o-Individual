@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.exceptions.InvalidDateException;
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
@@ -27,7 +25,7 @@ import uol.compass.ms.order.service.impl.ItemServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
-    
+
     @InjectMocks
     private ItemServiceImpl itemService;
 
@@ -56,7 +54,16 @@ public class ItemServiceImplTest {
         ItemEntity item = ScenarioBuilder.buildItemEntity();
         List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTOs();
 
-        when(itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(any(), any(), any(), any(), any())).thenReturn(item);
+        when(
+            itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(
+                any(),
+                any(),
+                any(),
+                any(),
+                any()
+            )
+        )
+            .thenReturn(item);
 
         List<ItemEntity> list = itemService.createItems(listRequest);
 
@@ -70,9 +77,12 @@ public class ItemServiceImplTest {
         List<ItemRequestDTO> listRequest = new ArrayList<>();
         listRequest.add(request);
 
-        assertThrows(InvalidDateException.class, () -> {
-            itemService.createItems(listRequest);
-        });
+        assertThrows(
+            InvalidDateException.class,
+            () -> {
+                itemService.createItems(listRequest);
+            }
+        );
     }
 
     @Test
@@ -83,5 +93,4 @@ public class ItemServiceImplTest {
 
         assertEquals(Double.valueOf(3.95), total);
     }
-
 }

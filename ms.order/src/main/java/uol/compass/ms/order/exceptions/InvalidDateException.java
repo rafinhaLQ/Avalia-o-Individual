@@ -1,8 +1,7 @@
 package uol.compass.ms.order.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 import uol.compass.ms.order.model.constants.ErrorCode;
 
 @Getter
@@ -20,5 +19,4 @@ public class InvalidDateException extends RuntimeException {
         this.errorCode = ErrorCode.INVALID_DATE;
         this.details = ErrorCode.INVALID_DATE.getMessage();
     }
-
 }

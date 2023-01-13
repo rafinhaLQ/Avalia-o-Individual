@@ -6,16 +6,14 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class TestUtils {
+
     public static ObjectWriter mapper;
 
     static {
-        mapper = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .writer().withDefaultPrettyPrinter();
+        mapper = new ObjectMapper().registerModule(new JavaTimeModule()).writer().withDefaultPrettyPrinter();
     }
 
     public static String mapToJson(Object object) throws JsonProcessingException {
         return mapper.writeValueAsString(object);
     }
-
 }

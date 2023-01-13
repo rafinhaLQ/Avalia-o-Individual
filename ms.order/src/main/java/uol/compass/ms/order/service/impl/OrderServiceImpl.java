@@ -1,13 +1,11 @@
 package uol.compass.ms.order.service.impl;
 
 import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
 import uol.compass.ms.order.exceptions.OrderNotFoundException;
 import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
@@ -28,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderResponseDTO create(OrderRequestDTO request) {
         OrderEntity orderToCreate = new OrderEntity();
-        
+
         orderToCreate.setCpf(request.getCpf());
         orderToCreate.setItems(itemService.createItems(request.getItems()));
         orderToCreate.setTotal(itemService.getTotalValue(request.getItems()));
@@ -41,10 +39,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderResponseDTO> findAll(String cpf, Pageable pageable) {
-        Page<OrderEntity> page = cpf == null ?
-            orderRepository.findAll(pageable) :
-            orderRepository.findByCpf(cpf, pageable);
-        
+        Page<OrderEntity> page = cpf == null
+            ? orderRepository.findAll(pageable)
+            : orderRepository.findByCpf(cpf, pageable);
+
         return page.map(order -> mapper.map(order, OrderResponseDTO.class));
     }
 
@@ -56,8 +54,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private OrderEntity getOrderEntity(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(OrderNotFoundException::new);
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
     @Override
@@ -65,5 +62,4 @@ public class OrderServiceImpl implements OrderService {
         // TODO Auto-generated method stub
         return null;
     }
-    
 }

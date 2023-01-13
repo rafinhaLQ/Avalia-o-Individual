@@ -5,7 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +17,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
@@ -27,7 +25,7 @@ import uol.compass.ms.order.utils.TestUtils;
 
 @WebMvcTest(controllers = OrderController.class)
 public class OrderControllerTest {
-    
+
     public static final String BASE_URL = "/pedidos";
 
     public static final String ID_URL = BASE_URL + "/1";
@@ -48,11 +46,14 @@ public class OrderControllerTest {
         String input = TestUtils.mapToJson(request);
 
         MvcResult result = mvc
-                .perform(MockMvcRequestBuilders.post(BASE_URL)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(input)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+            .perform(
+                MockMvcRequestBuilders
+                    .post(BASE_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(input)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 
@@ -67,10 +68,13 @@ public class OrderControllerTest {
         when(orderService.findAll(any(), any())).thenReturn(pageDTO);
 
         MvcResult result = mvc
-                .perform(MockMvcRequestBuilders.get(BASE_URL)
+            .perform(
+                MockMvcRequestBuilders
+                    .get(BASE_URL)
                     .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 
@@ -84,14 +88,16 @@ public class OrderControllerTest {
         when(orderService.findById(any())).thenReturn(responseDTO);
 
         MvcResult result = mvc
-                .perform(MockMvcRequestBuilders.get(ID_URL)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+            .perform(
+                MockMvcRequestBuilders
+                    .get(ID_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
 
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
-
 }
