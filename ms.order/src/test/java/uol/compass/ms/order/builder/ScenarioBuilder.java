@@ -3,14 +3,15 @@ package uol.compass.ms.order.builder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import uol.compass.ms.order.model.dto.request.ItemRequestDTO;
-import uol.compass.ms.order.model.dto.request.OrderRequestDTO;
-import uol.compass.ms.order.model.dto.response.AddressResponseDTO;
-import uol.compass.ms.order.model.dto.response.ItemResponseDTO;
-import uol.compass.ms.order.model.dto.response.OrderResponseDTO;
-import uol.compass.ms.order.model.entities.AddressEntity;
-import uol.compass.ms.order.model.entities.ItemEntity;
-import uol.compass.ms.order.model.entities.OrderEntity;
+
+import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
+import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.domain.dto.response.AddressResponseDTO;
+import uol.compass.ms.order.domain.dto.response.ItemResponseDTO;
+import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
+import uol.compass.ms.order.domain.model.entities.AddressEntity;
+import uol.compass.ms.order.domain.model.entities.ItemEntity;
+import uol.compass.ms.order.domain.model.entities.OrderEntity;
 
 public class ScenarioBuilder {
 
