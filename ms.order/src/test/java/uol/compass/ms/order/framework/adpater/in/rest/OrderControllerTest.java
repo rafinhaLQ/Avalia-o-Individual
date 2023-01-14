@@ -17,10 +17,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import uol.compass.ms.order.application.service.OrderServiceImpl;
 import uol.compass.ms.order.builder.ScenarioBuilder;
+import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.utils.TestUtils;
 
@@ -30,6 +31,8 @@ public class OrderControllerTest {
     public static final String BASE_URL = "/pedidos";
 
     public static final String ID_URL = BASE_URL + "/1";
+
+    public static final String ITEMS_URL = BASE_URL + "/itens/1";
 
     @Autowired
     private MockMvc mvc;
@@ -100,5 +103,69 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    void updateItens() throws Exception {
+        List<ItemRequestDTO> request = ScenarioBuilder.buildListOfItemRequestDTOs();
+        OrderResponseDTO responseDTO = ScenarioBuilder.buildOrderResponseDTO();
+
+        when(orderService.updateItems(any(), any())).thenReturn(responseDTO);
+
+        String input = TestUtils.mapToJson(request);
+
+        MvcResult result = mvc
+            .perform(
+                MockMvcRequestBuilders
+                    .patch(ITEMS_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(input)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    void update() throws Exception {
+        OrderUpdateRequestDTO request = ScenarioBuilder.buildOrderUpdateRequestDTO();
+        OrderResponseDTO responseDTO = ScenarioBuilder.buildOrderResponseDTO();
+
+        when(orderService.update(any(), any())).thenReturn(responseDTO);
+
+        String input = TestUtils.mapToJson(request);
+
+        MvcResult result = mvc
+            .perform(
+                MockMvcRequestBuilders
+                    .put(ID_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(input)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+    }
+
+    @Test
+    void delete() throws Exception {
+        MvcResult result = mvc
+            .perform(
+                MockMvcRequestBuilders
+                    .delete(ID_URL)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 }

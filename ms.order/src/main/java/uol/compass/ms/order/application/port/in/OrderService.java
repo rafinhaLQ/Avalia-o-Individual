@@ -3,7 +3,6 @@ package uol.compass.ms.order.application.port.in;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
@@ -19,4 +18,6 @@ public interface OrderService {
     OrderResponseDTO updateItems(Long id, List<ItemRequestDTO> items);
 
     OrderResponseDTO update(Long id, OrderUpdateRequestDTO request);
+
+    void delete(Long id);
 }

@@ -3,10 +3,11 @@ package uol.compass.ms.order.builder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.AddressResponseDTO;
+import uol.compass.ms.order.domain.dto.response.ApiViaCepResponseDTO;
 import uol.compass.ms.order.domain.dto.response.ItemResponseDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
@@ -71,6 +72,22 @@ public class ScenarioBuilder {
             .build();
     }
 
+    public static ApiViaCepResponseDTO buildApiViaCepResponseDTO() {
+        return ApiViaCepResponseDTO
+            .builder()
+            .cep(CEP_WITH_DASH)
+            .logradouro(STREET)
+            .complemento("")
+            .bairro(DISTRICT)
+            .localidade(CITY)
+            .uf(STATE)
+            .ibge("2927408")
+            .gia("")
+            .ddd("71")
+            .siafi("3849")
+            .build();
+    }
+
     public static ItemEntity buildItemEntity() {
         return ItemEntity
             .builder()
@@ -131,6 +148,10 @@ public class ScenarioBuilder {
             .cep(CEP_WITHOUT_DASH)
             .number(NUMBER)
             .build();
+    }
+
+    public static OrderUpdateRequestDTO buildOrderUpdateRequestDTO() {
+        return OrderUpdateRequestDTO.builder().cpf(CPF).cep(CEP_WITHOUT_DASH).number(NUMBER).build();
     }
 
     public static List<ItemEntity> buildListOfItemEntities() {

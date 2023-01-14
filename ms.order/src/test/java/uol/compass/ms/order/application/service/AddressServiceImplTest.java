@@ -12,8 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import uol.compass.ms.order.application.port.in.ApiViaCepInterface;
 import uol.compass.ms.order.builder.ScenarioBuilder;
+import uol.compass.ms.order.domain.dto.response.ApiViaCepResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
 import uol.compass.ms.order.framework.adpater.out.repositories.AddressRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidCepException;
@@ -31,10 +32,15 @@ public class AddressServiceImplTest {
     @Mock
     private AddressRepository addressRepository;
 
+    @Mock
+    private ApiViaCepInterface apiViaCepInterface;
+
     @Test
     void shouldCreateAddress_sucess() {
         AddressEntity address = ScenarioBuilder.builAddressEntity();
+        ApiViaCepResponseDTO apiResponse = ScenarioBuilder.buildApiViaCepResponseDTO();
 
+        when(apiViaCepInterface.findAddressWithCep(any())).thenReturn(apiResponse);
         when(addressRepository.save(any())).thenReturn(address);
 
         AddressEntity addressEntity = addressService.createAddressWithCep(CEP, 5);
@@ -57,6 +63,10 @@ public class AddressServiceImplTest {
 
     @Test
     void shouldCreateAddress_InvalidCepException() {
+        ApiViaCepResponseDTO apiResponse = new ApiViaCepResponseDTO();
+
+        when(apiViaCepInterface.findAddressWithCep(any())).thenReturn(apiResponse);
+
         assertThrows(
             InvalidCepException.class,
             () -> {

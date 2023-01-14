@@ -1,9 +1,8 @@
 package uol.compass.ms.order.framework.exceptions;
 
 import lombok.Getter;
-import uol.compass.ms.order.domain.model.constants.ErrorCode;
-
 import org.springframework.http.HttpStatus;
+import uol.compass.ms.order.domain.model.constants.ErrorCode;
 
 @Getter
 public class InvalidCepException extends RuntimeException {

@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import uol.compass.ms.order.application.port.in.OrderService;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
@@ -42,8 +41,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<OrderResponseDTO> findAll(String cpf, Pageable pageable) {
         Page<OrderEntity> page = cpf == null
-                ? orderRepository.findAll(pageable)
-                : orderRepository.findByCpf(cpf, pageable);
+            ? orderRepository.findAll(pageable)
+            : orderRepository.findByCpf(cpf, pageable);
 
         return page.map(order -> mapper.map(order, OrderResponseDTO.class));
     }
@@ -81,5 +80,12 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderUpdated = orderRepository.save(orderToUpdate);
 
         return mapper.map(orderUpdated, OrderResponseDTO.class);
+    }
+
+    @Override
+    public void delete(Long id) {
+        getOrderEntity(id);
+
+        orderRepository.deleteById(id);
     }
 }

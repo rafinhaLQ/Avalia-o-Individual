@@ -20,9 +20,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-
 import uol.compass.ms.order.builder.ScenarioBuilder;
+import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
+import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
@@ -114,5 +115,50 @@ public class OrderServiceImplTest {
                 orderService.findById(ID);
             }
         );
+    }
+
+    @Test
+    void shouldUpdateItemsOnOrder_sucess() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+        List<ItemEntity> itemEntities = ScenarioBuilder.buildListOfItemEntities();
+        List<ItemRequestDTO> itemRequests = ScenarioBuilder.buildListOfItemRequestDTOs();
+
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+        when(itemService.createItems(any())).thenReturn(itemEntities);
+        when(orderRepository.save(any())).thenReturn(order);
+
+        OrderResponseDTO response = orderService.updateItems(ID, itemRequests);
+
+        assertNotNull(response);
+        assertEquals("09963606547", response.getCpf());
+        verify(orderRepository).save(any());
+    }
+
+    @Test
+    void shouldUpdateOrder_sucess() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+        OrderUpdateRequestDTO request = ScenarioBuilder.buildOrderUpdateRequestDTO();
+        AddressEntity address = ScenarioBuilder.builAddressEntity();
+
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+        when(addressService.createAddressWithCep(any(), any())).thenReturn(address);
+        when(orderRepository.save(any())).thenReturn(order);
+
+        OrderResponseDTO response = orderService.update(ID, request);
+
+        assertNotNull(response);
+        assertEquals("09963606547", response.getCpf());
+        verify(orderRepository).save(any());
+    }
+
+    @Test
+    void shouldDeleteOrder_sucess() {
+        OrderEntity order = ScenarioBuilder.buildOrderEntity();
+
+        when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+
+        orderService.delete(ID);
+
+        verify(orderRepository).deleteById(any());
     }
 }
