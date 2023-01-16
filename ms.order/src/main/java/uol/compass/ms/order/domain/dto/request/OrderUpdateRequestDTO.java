@@ -19,7 +19,7 @@ public class OrderUpdateRequestDTO {
     private String cpf;
 
     @NotNull
-    @Size(min = 8, max = 8)
+    @Size(min = 8, max = 9)
     private String cep;
 
     @NotNull

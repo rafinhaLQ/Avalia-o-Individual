@@ -19,6 +19,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressEntity createAddressWithCep(String cepRecebido, Integer number) {
+        cepRecebido = cepRecebido.replace("-", "");
+
         if (
             addressRepository.findByCepAndNumber(
                 cepRecebido.substring(0, 5) + "-" + cepRecebido.substring(5),
