@@ -1,4 +1,4 @@
-package uol.compass.ms.order.framework.adpater.out.repositories;
+package uol.compass.ms.order.framework.adpater.out;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

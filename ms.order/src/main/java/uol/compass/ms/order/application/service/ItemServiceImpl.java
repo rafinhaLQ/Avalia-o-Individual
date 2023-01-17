@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import uol.compass.ms.order.application.port.in.ItemService;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
-import uol.compass.ms.order.framework.adpater.out.repositories.ItemRepository;
+import uol.compass.ms.order.framework.adpater.out.ItemRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidDateException;
 
 @Service

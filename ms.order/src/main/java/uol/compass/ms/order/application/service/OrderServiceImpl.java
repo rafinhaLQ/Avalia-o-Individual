@@ -11,9 +11,10 @@ import uol.compass.ms.order.application.port.out.TopicProducer;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
+import uol.compass.ms.order.domain.dto.response.OrderHistoryResponseDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.domain.model.entities.OrderEntity;
-import uol.compass.ms.order.framework.adpater.out.repositories.OrderRepository;
+import uol.compass.ms.order.framework.adpater.out.OrderRepository;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
 
 @Service
@@ -37,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity orderCreated = orderRepository.save(orderToCreate);
 
-        topicProducer.send("id:" + orderCreated.getId() + " total:" + orderCreated.getTotal());
+        topicProducer.send(mapper.map(orderCreated, OrderHistoryResponseDTO.class));
 
         return mapper.map(orderCreated, OrderResponseDTO.class);
     }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,7 +30,7 @@ import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
 import uol.compass.ms.order.domain.model.entities.OrderEntity;
-import uol.compass.ms.order.framework.adpater.out.repositories.OrderRepository;
+import uol.compass.ms.order.framework.adpater.out.OrderRepository;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
@@ -65,12 +66,14 @@ public class OrderServiceImplTest {
         when(itemService.createItems(any())).thenReturn(itemEntities);
         when(addressService.createAddressWithCep(any(), any())).thenReturn(address);
         when(orderRepository.save(any())).thenReturn(order);
+        doNothing().when(topicProducer).send(any());
 
         OrderResponseDTO response = orderService.create(request);
 
         assertNotNull(response);
         assertEquals("09963606547", response.getCpf());
         verify(orderRepository).save(any());
+        verify(topicProducer).send(any());
     }
 
     @Test

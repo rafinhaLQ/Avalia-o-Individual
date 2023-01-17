@@ -16,7 +16,7 @@ import uol.compass.ms.order.application.port.in.ApiViaCepInterface;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.domain.dto.response.ApiViaCepResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
-import uol.compass.ms.order.framework.adpater.out.repositories.AddressRepository;
+import uol.compass.ms.order.framework.adpater.out.AddressRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidCepException;
 
 @ExtendWith(MockitoExtension.class)
