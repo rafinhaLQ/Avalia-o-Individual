@@ -1,0 +1,41 @@
+server:
+    port: 8081  
+    servlet: 
+        context-path: /api
+
+spring:
+    application:
+        name: ms-history
+
+    main:
+        allow-bean-definition-overriding: true
+
+    data:
+        mongodb:
+            uri: mongodb://localhost:27017/order_history
+
+    kafka:
+        consumer:
+            bootstrap-servers: localhost:9092
+            group-id: group_id
+            auto-offset-reset: earliest
+            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+            value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+            properties:
+                spring:
+                    json:
+                        trusted:
+                            packages: "*"
+
+                        value:
+                            default:
+                                type: uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO
+
+topic:
+    name:
+        consumer: order_history_kafka
+        
+auto:
+    create:
+        topics:
+            enable: true
