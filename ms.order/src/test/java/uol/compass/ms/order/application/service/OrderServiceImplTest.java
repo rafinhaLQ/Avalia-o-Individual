@@ -20,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import uol.compass.ms.order.application.port.out.TopicProducer;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
@@ -47,6 +48,9 @@ public class OrderServiceImplTest {
 
     @Mock
     private ItemServiceImpl itemService;
+
+    @Mock
+    private TopicProducer topicProducer;
 
     @Spy
     private ModelMapper mapper;

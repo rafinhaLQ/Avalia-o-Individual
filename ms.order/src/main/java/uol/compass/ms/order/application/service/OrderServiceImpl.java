@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uol.compass.ms.order.application.port.in.OrderService;
+import uol.compass.ms.order.application.port.out.TopicProducer;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
@@ -23,6 +24,7 @@ public class OrderServiceImpl implements OrderService {
     private final ModelMapper mapper;
     private final AddressServiceImpl addressService;
     private final ItemServiceImpl itemService;
+    private final TopicProducer topicProducer;
 
     @Override
     public OrderResponseDTO create(OrderRequestDTO request) {
@@ -34,6 +36,8 @@ public class OrderServiceImpl implements OrderService {
         orderToCreate.setAddress(addressService.createAddressWithCep(request.getCep(), request.getNumber()));
 
         OrderEntity orderCreated = orderRepository.save(orderToCreate);
+
+        topicProducer.send("id:" + orderCreated.getId() + " total:" + orderCreated.getTotal());
 
         return mapper.map(orderCreated, OrderResponseDTO.class);
     }

@@ -20,9 +20,27 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL8Dialect
                 format_sql: true
+    
+    # Producer properties
+    kafka:
+        producer:
+            bootstrap-servers: localhost:9092
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.apache.kafka.common.serialization.StringSerializer
+            group-id: group_id
 
     application:
         name: ms.order
     
     main:
         allow-bean-definition-overriding: true
+
+topic:
+    name:
+        producer: order_history_kafka
+
+# Common Kafka Properties
+auto:
+    create:
+        topics:
+            enable: true
