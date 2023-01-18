@@ -1,6 +1,7 @@
 package uol.compass.ms.order.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uol.compass.ms.order.application.port.in.AddressService;
 import uol.compass.ms.order.application.port.in.ApiViaCepInterface;
@@ -11,6 +12,7 @@ import uol.compass.ms.order.framework.exceptions.InvalidCepException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AddressServiceImpl implements AddressService {
 
     private final AddressRepository addressRepository;
@@ -39,6 +41,7 @@ public class AddressServiceImpl implements AddressService {
         ApiViaCepResponseDTO response = apiViaCepInterface.findAddressWithCep(cepRecebido);
 
         if (response.getCep() == null) {
+            log.error("Cep inexistente", InvalidCepException.class);
             throw new InvalidCepException();
         }
 
@@ -48,6 +51,8 @@ public class AddressServiceImpl implements AddressService {
         addressToCreate.setCity(response.getLocalidade());
         addressToCreate.setState(response.getUf());
         addressToCreate.setCep(response.getCep());
+
+        log.info("Endereco criado no banco");
 
         return addressRepository.save(addressToCreate);
     }

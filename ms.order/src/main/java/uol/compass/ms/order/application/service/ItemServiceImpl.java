@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import uol.compass.ms.order.application.port.in.ItemService;
@@ -12,6 +13,7 @@ import uol.compass.ms.order.domain.model.entities.ItemEntity;
 import uol.compass.ms.order.framework.adpater.out.ItemRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidDateException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
@@ -60,6 +62,8 @@ public class ItemServiceImpl implements ItemService {
                 }
             }
         );
+
+        log.info("Itens criados no banco");
 
         return itemsAlreadySaved;
     }

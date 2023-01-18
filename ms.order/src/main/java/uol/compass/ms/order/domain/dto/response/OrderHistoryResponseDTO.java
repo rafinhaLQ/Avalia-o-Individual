@@ -14,5 +14,4 @@ public class OrderHistoryResponseDTO {
     private Long id;
 
     private Double total;
-    
 }

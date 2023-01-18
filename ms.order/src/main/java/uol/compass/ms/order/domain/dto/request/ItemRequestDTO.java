@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class ItemRequestDTO {
     private LocalDate expirationDate;
 
     @NotNull
+    @Positive
     private Double value;
 
     @NotBlank

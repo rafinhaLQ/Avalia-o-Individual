@@ -163,6 +163,7 @@ public class OrderServiceImplTest {
         OrderEntity order = ScenarioBuilder.buildOrderEntity();
 
         when(orderRepository.findById(any())).thenReturn(Optional.of(order));
+        doNothing().when(orderRepository).deleteById(any());
 
         orderService.delete(ID);
 

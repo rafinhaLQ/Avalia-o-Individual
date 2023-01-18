@@ -2,6 +2,7 @@ package uol.compass.ms.order.application.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import uol.compass.ms.order.domain.model.entities.OrderEntity;
 import uol.compass.ms.order.framework.adpater.out.OrderRepository;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -38,7 +40,11 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity orderCreated = orderRepository.save(orderToCreate);
 
+        log.info("Pedido criado no banco");
+
         topicProducer.send(mapper.map(orderCreated, OrderHistoryResponseDTO.class));
+
+        log.info("Mensagem enviada para o kafka");
 
         return mapper.map(orderCreated, OrderResponseDTO.class);
     }
@@ -49,12 +55,16 @@ public class OrderServiceImpl implements OrderService {
             ? orderRepository.findAll(pageable)
             : orderRepository.findByCpf(cpf, pageable);
 
+        log.info("Pedidos buscados no banco");
+
         return page.map(order -> mapper.map(order, OrderResponseDTO.class));
     }
 
     @Override
     public OrderResponseDTO findById(Long id) {
         OrderEntity order = getOrderEntity(id);
+
+        log.info("Pedido " + id + " encontrado no banco");
 
         return mapper.map(order, OrderResponseDTO.class);
     }
@@ -72,6 +82,8 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity orderUpdated = orderRepository.save(orderToUpdate);
 
+        log.info("Itens do pedido " + id + " alterado no banco");
+
         return mapper.map(orderUpdated, OrderResponseDTO.class);
     }
 
@@ -84,6 +96,8 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity orderUpdated = orderRepository.save(orderToUpdate);
 
+        log.info("Pedido " + id + " alterado no banco");
+
         return mapper.map(orderUpdated, OrderResponseDTO.class);
     }
 
@@ -92,5 +106,7 @@ public class OrderServiceImpl implements OrderService {
         getOrderEntity(id);
 
         orderRepository.deleteById(id);
+
+        log.info("Pedido " + id + " removido do banco");
     }
 }
