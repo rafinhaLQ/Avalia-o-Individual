@@ -1,7 +1,10 @@
 package uol.compass.ms.order.framework.exceptions.handler;
 
+import feign.FeignException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uol.compass.ms.order.domain.dto.response.ExceptionResponseDTO;
-import uol.compass.ms.order.domain.model.constants.ErrorCode;
+import uol.compass.ms.order.domain.model.enums.ErrorCode;
 import uol.compass.ms.order.framework.exceptions.InvalidCepException;
 import uol.compass.ms.order.framework.exceptions.InvalidDateException;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
@@ -106,5 +109,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex) {
         ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.ORDER_NOT_FOUND, ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public final ResponseEntity<Object> handleFeignException(FeignException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.BAD_REQUEST, ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public final ResponseEntity<Object> handlePropertyReferenceException(PropertyReferenceException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.BAD_REQUEST, ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> objectAldreadyRegistered(DataIntegrityViolationException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.BAD_REQUEST, ex);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse);
     }
 }

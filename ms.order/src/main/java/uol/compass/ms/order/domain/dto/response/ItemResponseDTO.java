@@ -17,10 +17,10 @@ public class ItemResponseDTO {
 
     private String name;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
 
     private Double value;

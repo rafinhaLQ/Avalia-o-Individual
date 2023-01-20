@@ -31,6 +31,9 @@ spring:
                             default:
                                 type: uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO
 
+trusted:
+    packages: "*"
+
 topic:
     name:
         consumer: order_history_kafka

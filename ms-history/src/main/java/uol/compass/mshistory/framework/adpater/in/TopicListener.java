@@ -1,14 +1,13 @@
-package uol.compass.mshistory.application.port.in;
+package uol.compass.mshistory.framework.adpater.in;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import uol.compass.mshistory.application.service.OrderHistoryServiceImpl;
-import uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import uol.compass.mshistory.application.service.OrderHistoryServiceImpl;
+import uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO;
 
 @Slf4j
 @RequiredArgsConstructor

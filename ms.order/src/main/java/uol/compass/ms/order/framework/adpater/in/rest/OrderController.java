@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,7 @@ import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/pedidos")

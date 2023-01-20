@@ -21,7 +21,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import uol.compass.ms.order.application.port.out.TopicProducer;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
@@ -31,6 +30,7 @@ import uol.compass.ms.order.domain.model.entities.AddressEntity;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
 import uol.compass.ms.order.domain.model.entities.OrderEntity;
 import uol.compass.ms.order.framework.adpater.out.OrderRepository;
+import uol.compass.ms.order.framework.adpater.out.TopicProducer;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
@@ -133,12 +133,14 @@ public class OrderServiceImplTest {
         when(orderRepository.findById(any())).thenReturn(Optional.of(order));
         when(itemService.createItems(any())).thenReturn(itemEntities);
         when(orderRepository.save(any())).thenReturn(order);
+        doNothing().when(topicProducer).send(any());
 
         OrderResponseDTO response = orderService.updateItems(ID, itemRequests);
 
         assertNotNull(response);
         assertEquals("09963606547", response.getCpf());
         verify(orderRepository).save(any());
+        verify(topicProducer).send(any());
     }
 
     @Test

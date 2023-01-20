@@ -20,11 +20,11 @@ public class ItemRequestDTO {
     private String name;
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate creationDate;
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate expirationDate;
 
     @NotNull

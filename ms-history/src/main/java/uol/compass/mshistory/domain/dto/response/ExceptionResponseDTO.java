@@ -1,10 +1,10 @@
-package uol.compass.ms.order.domain.dto.response;
+package uol.compass.mshistory.domain.dto.response;
 
 import java.util.Collections;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import uol.compass.ms.order.domain.model.enums.ErrorCode;
+import uol.compass.mshistory.domain.model.ErrorCode;
 
 @Data
 @AllArgsConstructor

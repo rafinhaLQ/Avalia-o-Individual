@@ -23,6 +23,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemEntity> createItems(List<ItemRequestDTO> items) {
+        log.info("Starting the method to create items");
+
         items.forEach(
             item -> {
                 if (item.getExpirationDate().isBefore(item.getCreationDate())) throw new InvalidDateException();
@@ -63,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
             }
         );
 
-        log.info("Itens criados no banco");
+        log.info("Items created on database");
 
         return itemsAlreadySaved;
     }

@@ -21,6 +21,8 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressEntity createAddressWithCep(String cepRecebido, Integer number) {
+        log.info("Starting method for Address");
+
         cepRecebido = cepRecebido.replace("-", "");
 
         if (
@@ -41,7 +43,7 @@ public class AddressServiceImpl implements AddressService {
         ApiViaCepResponseDTO response = apiViaCepInterface.findAddressWithCep(cepRecebido);
 
         if (response.getCep() == null) {
-            log.error("Cep inexistente", InvalidCepException.class);
+            log.error("Inexistent CEP", InvalidCepException.class);
             throw new InvalidCepException();
         }
 
@@ -52,7 +54,7 @@ public class AddressServiceImpl implements AddressService {
         addressToCreate.setState(response.getUf());
         addressToCreate.setCep(response.getCep());
 
-        log.info("Endereco criado no banco");
+        log.info("Address created on database");
 
         return addressRepository.save(addressToCreate);
     }

@@ -1,4 +1,4 @@
-package uol.compass.ms.order.domain.model.constants;
+package uol.compass.ms.order.domain.model.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
