@@ -69,16 +69,6 @@
 			<groupId>org.jacoco</groupId>
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.8</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-			<version>1.4.5</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.4.5</version>
 		</dependency>				
 	</dependencies>
 
@@ -151,7 +141,6 @@
 						<goals>
 							<goal>check</goal>
 						</goals>
-						<phase>compile</phase>
 					</execution>
 				</executions>
 			</plugin>
