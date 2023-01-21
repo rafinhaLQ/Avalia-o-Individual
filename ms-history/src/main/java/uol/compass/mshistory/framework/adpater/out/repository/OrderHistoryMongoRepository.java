@@ -1,4 +1,4 @@
-package uol.compass.mshistory.framework.adpater.out;
+package uol.compass.mshistory.framework.adpater.out.repository;
 
 import java.time.LocalDate;
 import org.springframework.data.domain.Page;
@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import uol.compass.mshistory.domain.model.OrderHistory;
 
-public interface OrderHistoryRepository extends MongoRepository<OrderHistory, String> {
+public interface OrderHistoryMongoRepository extends MongoRepository<OrderHistory, String> {
     Page<OrderHistory> findByOrderDateGreaterThan(LocalDate starDate, Pageable pageable);
 
     Page<OrderHistory> findByOrderDateLessThan(LocalDate endDate, Pageable pageable);

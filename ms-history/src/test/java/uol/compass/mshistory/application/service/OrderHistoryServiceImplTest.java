@@ -19,11 +19,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import uol.compass.mshistory.application.port.out.OrderHistoryRepositoryPortOut;
 import uol.compass.mshistory.builder.ScenarioBuilder;
 import uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO;
 import uol.compass.mshistory.domain.dto.response.OrderHistoryResponseDTO;
 import uol.compass.mshistory.domain.model.OrderHistory;
-import uol.compass.mshistory.framework.adpater.out.OrderHistoryRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class OrderHistoryServiceImplTest {
@@ -36,7 +36,7 @@ public class OrderHistoryServiceImplTest {
     private OrderHistoryServiceImpl historyService;
 
     @Mock
-    private OrderHistoryRepository historyRepository;
+    private OrderHistoryRepositoryPortOut historyRepository;
 
     @Spy
     private ModelMapper mapper;
@@ -71,7 +71,7 @@ public class OrderHistoryServiceImplTest {
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findAll((Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrders((Pageable) any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(null, null, any(Pageable.class));
 
@@ -85,7 +85,7 @@ public class OrderHistoryServiceImplTest {
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findByOrderDateBetween(any(), any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersBetween(any(), any(), (Pageable) any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(START_DATE, END_DATE, pageable);
 
@@ -99,7 +99,7 @@ public class OrderHistoryServiceImplTest {
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findByOrderDateGreaterThan(any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersAfter(any(), (Pageable) any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(START_DATE, null, pageable);
 
@@ -113,7 +113,7 @@ public class OrderHistoryServiceImplTest {
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findByOrderDateLessThan(any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersBefore(any(), (Pageable) any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(null, END_DATE, pageable);
 

@@ -8,17 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uol.compass.mshistory.application.port.in.OrderHistoryService;
+import uol.compass.mshistory.application.port.out.OrderHistoryRepositoryPortOut;
 import uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO;
 import uol.compass.mshistory.domain.dto.response.OrderHistoryResponseDTO;
 import uol.compass.mshistory.domain.model.OrderHistory;
-import uol.compass.mshistory.framework.adpater.out.OrderHistoryRepository;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderHistoryServiceImpl implements OrderHistoryService {
 
-    private final OrderHistoryRepository historyRepository;
+    private final OrderHistoryRepositoryPortOut historyRepository;
     private final ModelMapper mapper;
 
     @Override
@@ -50,16 +50,16 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
         Page<OrderHistory> page;
 
         if (startDate != null && endDate != null) {
-            page = historyRepository.findByOrderDateBetween(startDate, endDate, pageable);
+            page = historyRepository.findAllOrdersBetween(startDate, endDate, pageable);
         } else if (startDate != null) {
-            page = historyRepository.findByOrderDateGreaterThan(startDate, pageable);
+            page = historyRepository.findAllOrdersAfter(startDate, pageable);
         } else if (endDate != null) {
-            page = historyRepository.findByOrderDateLessThan(endDate, pageable);
+            page = historyRepository.findAllOrdersBefore(endDate, pageable);
         } else {
-            page = historyRepository.findAll(pageable);
+            page = historyRepository.findAllOrders(pageable);
         }
 
-        log.info("Historico de pedidos buscados no banco");
+        log.info("Order historys found on database");
 
         return page.map(history -> mapper.map(history, OrderHistoryResponseDTO.class));
     }

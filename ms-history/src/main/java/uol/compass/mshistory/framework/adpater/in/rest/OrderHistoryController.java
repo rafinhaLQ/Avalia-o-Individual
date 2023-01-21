@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import uol.compass.mshistory.application.service.OrderHistoryServiceImpl;
+import uol.compass.mshistory.application.port.in.OrderHistoryService;
 import uol.compass.mshistory.domain.dto.response.OrderHistoryResponseDTO;
 
 @RestController
@@ -19,7 +19,7 @@ import uol.compass.mshistory.domain.dto.response.OrderHistoryResponseDTO;
 @RequestMapping("/historico")
 public class OrderHistoryController {
 
-    private final OrderHistoryServiceImpl historyService;
+    private final OrderHistoryService historyService;
 
     @GetMapping
     public ResponseEntity<Page<OrderHistoryResponseDTO>> findAll(
