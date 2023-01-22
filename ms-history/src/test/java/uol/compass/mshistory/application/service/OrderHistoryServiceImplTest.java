@@ -3,6 +3,7 @@ package uol.compass.mshistory.application.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import uol.compass.mshistory.application.port.out.OrderHistoryRepositoryPortOut;
 import uol.compass.mshistory.builder.ScenarioBuilder;
@@ -31,6 +31,8 @@ public class OrderHistoryServiceImplTest {
     private static final LocalDate START_DATE = LocalDate.of(2023, 2, 20);
 
     private static final LocalDate END_DATE = LocalDate.of(2023, 2, 22);
+
+    private static final String HISTORY_ID = "63c701fe06236c4192ef38ed";
 
     @InjectMocks
     private OrderHistoryServiceImpl historyService;
@@ -63,61 +65,67 @@ public class OrderHistoryServiceImplTest {
 
         historyService.create(request);
 
+        verify(historyRepository, times(2)).findByOrderId(any());
         verify(historyRepository).save(any());
     }
 
     @Test
     void shouldFindAllOrdersHistorys_sucess() {
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findAllOrders((Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrders(any())).thenReturn(pageDTO);
 
-        Page<OrderHistoryResponseDTO> page = historyService.findAll(null, null, any(Pageable.class));
+        Page<OrderHistoryResponseDTO> page = historyService.findAll(null, null, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(historyRepository).findAllOrders(any());
     }
 
     @Test
     void shouldFindAllOrdersHistorys_FilterWithStartDateAndEndDate() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findAllOrdersBetween(any(), any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersBetween(any(), any(), any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(START_DATE, END_DATE, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(historyRepository).findAllOrdersBetween(any(), any(), any());
     }
 
     @Test
     void shouldFindAllOrdersHistorys_FilterWithStartDate() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findAllOrdersAfter(any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersAfter(any(), any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(START_DATE, null, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(historyRepository).findAllOrdersAfter(any(), any());
     }
 
     @Test
     void shouldFindAllOrdersHistorys_FilterWithEndDate() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory order = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(order));
 
-        when(historyRepository.findAllOrdersBefore(any(), (Pageable) any())).thenReturn(pageDTO);
+        when(historyRepository.findAllOrdersBefore(any(), any())).thenReturn(pageDTO);
 
         Page<OrderHistoryResponseDTO> page = historyService.findAll(null, END_DATE, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(historyRepository).findAllOrdersBefore(any(), any());
     }
 }

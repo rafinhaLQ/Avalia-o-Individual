@@ -15,7 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import uol.compass.mshistory.builder.ScenarioBuilder;
 import uol.compass.mshistory.domain.model.OrderHistory;
@@ -28,6 +27,8 @@ public class OrderHistoryRepositoryAdapterOutTest {
     private static final LocalDate START_DATE = LocalDate.of(2023, 2, 20);
 
     private static final LocalDate END_DATE = LocalDate.of(2023, 2, 22);
+
+    private static final String HISTORY_ID = "63c701fe06236c4192ef38ed";
 
     @InjectMocks
     private OrderHistoryRepositoryAdapterOut orderHistoryRepository;
@@ -44,7 +45,7 @@ public class OrderHistoryRepositoryAdapterOutTest {
         OrderHistory history = orderHistoryRepository.save(orderHistory);
 
         assertNotNull(history);
-        assertEquals("63c701fe06236c4192ef38ed", history.getId());
+        assertEquals(HISTORY_ID, history.getId());
         verify(mongoRepository).save(any());
     }
 
@@ -57,12 +58,13 @@ public class OrderHistoryRepositoryAdapterOutTest {
         OrderHistory history = orderHistoryRepository.findByOrderId(ID);
 
         assertNotNull(history);
-        assertEquals("63c701fe06236c4192ef38ed", history.getId());
+        assertEquals(HISTORY_ID, history.getId());
+        verify(mongoRepository).findByOrderId(any());
     }
 
     @Test
     void findAllOrders() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory orderHistory = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(orderHistory));
 
@@ -71,12 +73,13 @@ public class OrderHistoryRepositoryAdapterOutTest {
         Page<OrderHistory> page = orderHistoryRepository.findAllOrders(pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(mongoRepository).findAll((Pageable) any());
     }
 
     @Test
     void findAllOrdersAfter() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory orderHistory = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(orderHistory));
 
@@ -85,12 +88,13 @@ public class OrderHistoryRepositoryAdapterOutTest {
         Page<OrderHistory> page = orderHistoryRepository.findAllOrdersAfter(START_DATE, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(mongoRepository).findByOrderDateGreaterThan(any(), (Pageable) any());
     }
 
     @Test
     void findAllOrdersBefore() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory orderHistory = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(orderHistory));
 
@@ -99,12 +103,13 @@ public class OrderHistoryRepositoryAdapterOutTest {
         Page<OrderHistory> page = orderHistoryRepository.findAllOrdersBefore(END_DATE, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(mongoRepository).findByOrderDateLessThan(any(), (Pageable) any());
     }
 
     @Test
     void findAllOrdersBetween() {
-        Pageable pageable = PageRequest.of(0, 20);
+        Pageable pageable = ScenarioBuilder.buildPageable();
         OrderHistory orderHistory = ScenarioBuilder.buildOrderHistory();
         Page<OrderHistory> pageDTO = new PageImpl<>(List.of(orderHistory));
 
@@ -113,6 +118,7 @@ public class OrderHistoryRepositoryAdapterOutTest {
         Page<OrderHistory> page = orderHistoryRepository.findAllOrdersBetween(START_DATE, END_DATE, pageable);
 
         assertNotNull(page);
-        assertEquals("63c701fe06236c4192ef38ed", page.getContent().get(0).getId());
+        assertEquals(HISTORY_ID, page.getContent().get(0).getId());
+        verify(mongoRepository).findByOrderDateBetween(any(), any(), (Pageable) any());
     }
 }

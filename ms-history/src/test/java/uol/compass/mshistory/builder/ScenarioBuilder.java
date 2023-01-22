@@ -1,6 +1,8 @@
 package uol.compass.mshistory.builder;
 
 import java.time.LocalDate;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import uol.compass.mshistory.domain.dto.request.OrderHistoryRequestDTO;
 import uol.compass.mshistory.domain.dto.response.OrderHistoryResponseDTO;
 import uol.compass.mshistory.domain.model.OrderHistory;
@@ -25,5 +27,9 @@ public class ScenarioBuilder {
 
     public static OrderHistoryRequestDTO buildOrderHistoryRequestDTO() {
         return OrderHistoryRequestDTO.builder().id(ORDER_ID).total(TOTAL).build();
+    }
+
+    public static Pageable buildPageable() {
+        return PageRequest.of(0, 20);
     }
 }

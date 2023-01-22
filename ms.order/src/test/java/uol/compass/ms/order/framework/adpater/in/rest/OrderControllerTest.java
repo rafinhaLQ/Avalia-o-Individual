@@ -2,6 +2,8 @@ package uol.compass.ms.order.framework.adpater.in.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -19,7 +21,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uol.compass.ms.order.application.service.OrderServiceImpl;
 import uol.compass.ms.order.builder.ScenarioBuilder;
-import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
@@ -62,6 +63,7 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        verify(orderService).create(any());
     }
 
     @Test
@@ -83,6 +85,7 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+        verify(orderService).findAll(any(), any());
     }
 
     @Test
@@ -103,11 +106,12 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+        verify(orderService).findById(any());
     }
 
     @Test
     void updateItens() throws Exception {
-        List<ItemRequestDTO> request = ScenarioBuilder.buildListOfItemRequestDTOs();
+        List<Long> request = List.of(1L);
         OrderResponseDTO responseDTO = ScenarioBuilder.buildOrderResponseDTO();
 
         when(orderService.updateItems(any(), any())).thenReturn(responseDTO);
@@ -127,6 +131,7 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+        verify(orderService).updateItems(any(), any());
     }
 
     @Test
@@ -151,10 +156,13 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.OK.value(), response.getStatus());
+        verify(orderService).update(any(), any());
     }
 
     @Test
     void delete() throws Exception {
+        doNothing().when(orderService).delete(any());
+
         MvcResult result = mvc
             .perform(
                 MockMvcRequestBuilders
@@ -167,5 +175,6 @@ public class OrderControllerTest {
         MockHttpServletResponse response = result.getResponse();
 
         assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+        verify(orderService).delete(any());
     }
 }

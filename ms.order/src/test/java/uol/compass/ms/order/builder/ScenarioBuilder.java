@@ -1,8 +1,9 @@
 package uol.compass.ms.order.builder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderRequestDTO;
 import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
@@ -59,7 +60,7 @@ public class ScenarioBuilder {
             .build();
     }
 
-    public static AddressResponseDTO builAddressResponseDTO() {
+    public static AddressResponseDTO buildAddressResponseDTO() {
         return AddressResponseDTO
             .builder()
             .id(ID)
@@ -100,7 +101,7 @@ public class ScenarioBuilder {
             .build();
     }
 
-    private static ItemRequestDTO builItemRequestDTO() {
+    public static ItemRequestDTO builItemRequestDTO() {
         return ItemRequestDTO
             .builder()
             .name(ITEM_NAME)
@@ -122,13 +123,7 @@ public class ScenarioBuilder {
             .build();
     }
 
-    public static List<ItemRequestDTO> buildListOfItemRequestDTOs() {
-        List<ItemRequestDTO> list = new ArrayList<>();
-        list.add(builItemRequestDTO());
-        return list;
-    }
-
-    private static ItemResponseDTO buildItemResponseDTO() {
+    public static ItemResponseDTO buildItemResponseDTO() {
         return ItemResponseDTO
             .builder()
             .id(ID)
@@ -141,23 +136,11 @@ public class ScenarioBuilder {
     }
 
     public static OrderRequestDTO builOrderRequestDTO() {
-        return OrderRequestDTO
-            .builder()
-            .cpf(CPF)
-            .items(buildListOfItemRequestDTOs())
-            .cep(CEP_WITHOUT_DASH)
-            .number(NUMBER)
-            .build();
+        return OrderRequestDTO.builder().cpf(CPF).itemsIds(List.of(ID)).cep(CEP_WITHOUT_DASH).number(NUMBER).build();
     }
 
     public static OrderUpdateRequestDTO buildOrderUpdateRequestDTO() {
         return OrderUpdateRequestDTO.builder().cpf(CPF).cep(CEP_WITHOUT_DASH).number(NUMBER).build();
-    }
-
-    public static List<ItemEntity> buildListOfItemEntities() {
-        List<ItemEntity> list = new ArrayList<>();
-        list.add(buildItemEntity());
-        return list;
     }
 
     public static OrderEntity buildOrderEntity() {
@@ -165,16 +148,10 @@ public class ScenarioBuilder {
             .builder()
             .id(ID)
             .cpf(CPF)
-            .items(buildListOfItemEntities())
+            .items(List.of(buildItemEntity()))
             .total(TOTAL)
             .address(builAddressEntity())
             .build();
-    }
-
-    private static List<ItemResponseDTO> buildListOfItemResponseDTOs() {
-        List<ItemResponseDTO> list = new ArrayList<>();
-        list.add(buildItemResponseDTO());
-        return list;
     }
 
     public static OrderResponseDTO buildOrderResponseDTO() {
@@ -182,9 +159,13 @@ public class ScenarioBuilder {
             .builder()
             .id(ID)
             .cpf(CPF)
-            .items(buildListOfItemResponseDTOs())
+            .items(List.of(buildItemResponseDTO()))
             .total(TOTAL)
-            .address(builAddressResponseDTO())
+            .address(buildAddressResponseDTO())
             .build();
+    }
+
+    public static Pageable buildPageable() {
+        return PageRequest.of(0, 20);
     }
 }

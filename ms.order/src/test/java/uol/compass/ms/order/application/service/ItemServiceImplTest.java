@@ -4,10 +4,10 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,20 +16,28 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import uol.compass.ms.order.application.port.out.ItemRepositoryPortOut;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.domain.dto.request.ItemRequestDTO;
+import uol.compass.ms.order.domain.dto.response.ItemResponseDTO;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
-import uol.compass.ms.order.framework.adpater.out.ItemRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidDateException;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceImplTest {
 
+    private static final String ITEM_NAME = "Leite";
+
+    private static final Long ID = 1L;
+
     @InjectMocks
     private ItemServiceImpl itemService;
 
     @Mock
-    private ItemRepository itemRepository;
+    private ItemRepositoryPortOut itemRepository;
 
     @Spy
     private ModelMapper mapper;
@@ -37,59 +45,68 @@ public class ItemServiceImplTest {
     @Test
     void shouldCreateItem_sucess() {
         ItemEntity item = ScenarioBuilder.buildItemEntity();
-        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTOs();
+        ItemRequestDTO request = ScenarioBuilder.builItemRequestDTO();
 
         when(itemRepository.save(any())).thenReturn(item);
 
-        List<ItemEntity> list = itemService.createItems(listRequest);
+        ItemResponseDTO response = itemService.create(request);
 
-        assertNotNull(list);
-        assertEquals("Leite", list.get(0).getName());
+        assertNotNull(response);
+        assertEquals(ITEM_NAME, response.getName());
         verify(itemRepository).save(any());
     }
 
     @Test
     void shouldCreateItem_itemAlreadyExists() {
         ItemEntity item = ScenarioBuilder.buildItemEntity();
-        List<ItemRequestDTO> listRequest = ScenarioBuilder.buildListOfItemRequestDTOs();
+        ItemRequestDTO request = ScenarioBuilder.builItemRequestDTO();
 
-        when(
-            itemRepository.findByNameAndCreationDateAndExpirationDateAndValueAndDescription(
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
-        )
-            .thenReturn(item);
+        when(itemRepository.findItemByExceptId(any(), any(), any(), any(), any())).thenReturn(item);
 
-        List<ItemEntity> list = itemService.createItems(listRequest);
+        ItemResponseDTO response = itemService.create(request);
 
-        assertNotNull(list);
-        assertEquals("Leite", list.get(0).getName());
+        assertNotNull(response);
+        assertEquals(ITEM_NAME, response.getName());
+        verify(itemRepository, times(2)).findItemByExceptId(any(), any(), any(), any(), any());
     }
 
     @Test
     void shouldCreateItem_InvalidDateException() {
         ItemRequestDTO request = ScenarioBuilder.builInvalidItemRequestDTO();
-        List<ItemRequestDTO> listRequest = new ArrayList<>();
-        listRequest.add(request);
 
         assertThrows(
             InvalidDateException.class,
             () -> {
-                itemService.createItems(listRequest);
+                itemService.create(request);
             }
         );
     }
 
     @Test
-    void shouldSumValuesOfItems_sucess() {
-        List<ItemRequestDTO> items = ScenarioBuilder.buildListOfItemRequestDTOs();
+    void shouldFindAllItems_sucess() {
+        Pageable pageable = ScenarioBuilder.buildPageable();
+        ItemEntity item = ScenarioBuilder.buildItemEntity();
+        Page<ItemEntity> pageDTO = new PageImpl<>(List.of(item));
 
-        Double total = itemService.getTotalValue(items);
+        when(itemRepository.findAllItems(any())).thenReturn(pageDTO);
 
-        assertEquals(Double.valueOf(3.95), total);
+        Page<ItemResponseDTO> page = itemService.findAll(pageable);
+
+        assertNotNull(page);
+        assertEquals(ITEM_NAME, page.getContent().get(0).getName());
+        verify(itemRepository).findAllItems(any());
+    }
+
+    @Test
+    void shouldFindItemById_sucess() {
+        ItemEntity itemDTO = ScenarioBuilder.buildItemEntity();
+
+        when(itemRepository.findById(any())).thenReturn(itemDTO);
+
+        ItemEntity item = itemService.findById(ID);
+
+        assertNotNull(item);
+        assertEquals(ITEM_NAME, item.getName());
+        verify(itemRepository).findById(any());
     }
 }

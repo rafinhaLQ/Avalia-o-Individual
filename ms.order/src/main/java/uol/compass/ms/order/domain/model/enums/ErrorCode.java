@@ -13,7 +13,8 @@ public enum ErrorCode {
     INVALID_CEP("CEP inválido"),
     INVALID_DATE("O item expira antes de ser criado"),
 
-    ORDER_NOT_FOUND("Pedido não encontrado");
+    ORDER_NOT_FOUND("Pedido não encontrado"),
+    ITEM_NOT_FOUND("Item não encontrado");
 
     private final String message;
 }

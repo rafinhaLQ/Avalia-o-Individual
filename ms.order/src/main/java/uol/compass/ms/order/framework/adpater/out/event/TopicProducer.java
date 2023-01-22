@@ -1,4 +1,4 @@
-package uol.compass.ms.order.framework.adpater.out;
+package uol.compass.ms.order.framework.adpater.out.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

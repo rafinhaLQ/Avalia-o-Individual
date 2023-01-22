@@ -22,6 +22,7 @@ import uol.compass.ms.order.domain.dto.response.ExceptionResponseDTO;
 import uol.compass.ms.order.domain.model.enums.ErrorCode;
 import uol.compass.ms.order.framework.exceptions.InvalidCepException;
 import uol.compass.ms.order.framework.exceptions.InvalidDateException;
+import uol.compass.ms.order.framework.exceptions.ItemNotFoundException;
 import uol.compass.ms.order.framework.exceptions.OrderNotFoundException;
 
 @ControllerAdvice
@@ -107,6 +108,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OrderNotFoundException.class)
     public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex) {
+        ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.ORDER_NOT_FOUND, ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
+    }
+
+    @ExceptionHandler(ItemNotFoundException.class)
+    public final ResponseEntity<Object> handleItemNotFoundException(ItemNotFoundException ex) {
         ExceptionResponseDTO exceptionResponse = new ExceptionResponseDTO(ErrorCode.ORDER_NOT_FOUND, ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse);
     }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,24 +14,26 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uol.compass.ms.order.application.port.in.ApiViaCepInterface;
+import uol.compass.ms.order.application.port.out.AddressRepositoryPortOut;
 import uol.compass.ms.order.builder.ScenarioBuilder;
 import uol.compass.ms.order.domain.dto.response.ApiViaCepResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
-import uol.compass.ms.order.framework.adpater.out.AddressRepository;
 import uol.compass.ms.order.framework.exceptions.InvalidCepException;
 
 @ExtendWith(MockitoExtension.class)
 public class AddressServiceImplTest {
 
-    public static final String CEP = "40140650";
+    private static final String CEP = "40140650";
 
-    public static final String INVALID_CEP = "40140659";
+    private static final String INVALID_CEP = "40140659";
+
+    private static final String DISTRICT = "Barra";
 
     @InjectMocks
     private AddressServiceImpl addressService;
 
     @Mock
-    private AddressRepository addressRepository;
+    private AddressRepositoryPortOut addressRepository;
 
     @Mock
     private ApiViaCepInterface apiViaCepInterface;
@@ -46,7 +49,8 @@ public class AddressServiceImplTest {
         AddressEntity addressEntity = addressService.createAddressWithCep(CEP, 5);
 
         assertNotNull(addressEntity);
-        assertEquals("Barra", addressEntity.getDistrict());
+        assertEquals(DISTRICT, addressEntity.getDistrict());
+        verify(apiViaCepInterface).findAddressWithCep(any());
         verify(addressRepository).save(any());
     }
 
@@ -58,7 +62,8 @@ public class AddressServiceImplTest {
 
         AddressEntity addressEntity = addressService.createAddressWithCep(CEP, 5);
         assertNotNull(addressEntity);
-        assertEquals("Barra", addressEntity.getDistrict());
+        assertEquals(DISTRICT, addressEntity.getDistrict());
+        verify(addressRepository, times(2)).findByCepAndNumber(any(), any());
     }
 
     @Test
@@ -73,5 +78,6 @@ public class AddressServiceImplTest {
                 addressService.createAddressWithCep(INVALID_CEP, 5);
             }
         );
+        verify(apiViaCepInterface).findAddressWithCep(any());
     }
 }
