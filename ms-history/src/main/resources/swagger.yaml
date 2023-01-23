@@ -1,0 +1,143 @@
+openapi: 3.0.3
+info:
+  title: Swagger MS HISTORY API - OpenAPI 0.0.1
+  description: |-
+    API para controle de histórico de pedidos.
+    
+    - [Repositório da API](https://github.com/rafinhaLQ/Avaliacao-Individual)
+  contact:
+    name: API suporte
+    url: https://www.linkedin.com/in/rafaelluzdequeiroz/
+  version: 0.0.1
+servers:
+  - url: http://localhost:8081/api
+    description: API local
+tags:
+  - name: Historico
+    description: Histórico do pedido.
+paths:
+  /historico:
+    get:
+      tags:
+        - Historico
+      summary: Listar todos historicos de pedidos.
+      description: Retorna uma lista de historicos de pedidos.
+      operationId: getHistory
+      parameters:
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filtrar os históricos de pedidos apartir da data fornecida.
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+          description: Filtrar os históricos de pedidos apartir de antes da data fornecida.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Page_OrderHistoryResponseDTO"
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExceptionResponseDTO"
+
+components:
+  schemas:
+    OrderHistoryResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+        orderId:
+          type: integer
+          format: int64
+        total:
+          type: number
+          format: double
+        orderDate:
+          type: string
+          format: date
+          
+    Page_OrderHistoryResponseDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/OrderHistoryResponseDTO"
+        pageable:
+          type: object
+          properties:
+            sort:
+              type: object
+              properties:
+                sorted:
+                  type: boolean
+                unsorted:
+                  type: boolean
+                empty:
+                  type: boolean
+            pageNumber:
+              type: integer
+              format: int32
+            pageSize:
+              type: integer
+              format: int32
+            offset:
+              type: integer
+              format: int32
+            paged:
+              type: boolean
+            unpaged:
+              type: boolean
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        number:
+          type: integer
+          format: int32
+        sort:
+          type: object
+          properties:
+            sorted:
+              type: boolean
+            unsorted:
+              type: boolean
+            empty:
+              type: boolean
+        empty:
+          type: boolean
+
+    ExceptionResponseDTO:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            type: string
