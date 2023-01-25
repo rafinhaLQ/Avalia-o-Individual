@@ -1,4 +1,5 @@
 openapi: 3.0.3
+
 info:
   title: Swagger MS HISTORY API - OpenAPI 0.0.1
   description: |-
@@ -9,12 +10,15 @@ info:
     name: API suporte
     url: https://www.linkedin.com/in/rafaelluzdequeiroz/
   version: 0.0.1
+
 servers:
   - url: http://localhost:8081/api
     description: API local
+
 tags:
   - name: Historico
     description: Histórico do pedido.
+
 paths:
   /historico:
     get:
@@ -30,12 +34,14 @@ paths:
             type: string
             format: date
           description: Filtrar os históricos de pedidos apartir da data fornecida.
+          example: 17-01-2023
         - name: endDate
           in: query
           schema:
             type: string
             format: date
           description: Filtrar os históricos de pedidos apartir de antes da data fornecida.
+          example: 19-01-2023
       responses:
         "200":
           description: OK

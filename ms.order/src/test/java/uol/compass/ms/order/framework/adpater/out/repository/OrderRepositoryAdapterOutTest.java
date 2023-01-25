@@ -69,13 +69,13 @@ public class OrderRepositoryAdapterOutTest {
         OrderEntity order = ScenarioBuilder.buildOrderEntity();
         Page<OrderEntity> pageDTO = new PageImpl<>(List.of(order));
 
-        when(mySqlRepository.findByCpf(any(), (Pageable) any())).thenReturn(pageDTO);
+        when(mySqlRepository.findByCpfContaining(any(), (Pageable) any())).thenReturn(pageDTO);
 
         Page<OrderEntity> page = orderRepository.findAllOrdersByCpf(CPF, pageable);
 
         assertNotNull(page);
         assertEquals(CPF, page.getContent().get(0).getCpf());
-        verify(mySqlRepository).findByCpf(any(), (Pageable) any());
+        verify(mySqlRepository).findByCpfContaining(any(), (Pageable) any());
     }
 
     @Test

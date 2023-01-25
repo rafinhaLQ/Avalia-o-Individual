@@ -26,7 +26,7 @@ public class OrderRepositoryAdapterOut implements OrderRepositoryPortOut {
 
     @Override
     public Page<OrderEntity> findAllOrdersByCpf(String cpf, Pageable pageable) {
-        return mySqlRepository.findByCpf(cpf, pageable);
+        return mySqlRepository.findByCpfContaining(cpf, pageable);
     }
 
     @Override

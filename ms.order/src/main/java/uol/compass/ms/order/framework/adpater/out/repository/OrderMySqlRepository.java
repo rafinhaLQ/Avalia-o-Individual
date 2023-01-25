@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import uol.compass.ms.order.domain.model.entities.OrderEntity;
 
 public interface OrderMySqlRepository extends JpaRepository<OrderEntity, Long> {
-    Page<OrderEntity> findByCpf(String cpf, Pageable pageable);
+    Page<OrderEntity> findByCpfContaining(String cpf, Pageable pageable);
 }

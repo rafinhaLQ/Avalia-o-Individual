@@ -57,11 +57,19 @@ paths:
           schema:
             type: string
           description: Filtrar os pedidos pelo cpf de quem realizou o pedido.
+          example: 09963606547
         - name: sort
           in: query
           schema:
             type: string
           description: Filtrar os pedidos através de um atributo especifico, em ordem crescente ou decrescente.
+          examples: 
+            crescente:
+              value: total,asc
+              summary: Ordernar de forma crescente
+            decrescente:
+              value: total,desc
+              summary: Ordernar de forma decrescente
       responses:
         "200":
           description: OK
@@ -85,6 +93,7 @@ paths:
           schema:
             type: integer
             format: int64
+          example: 1
       responses:
         "200":
           description: OK
@@ -113,6 +122,7 @@ paths:
           schema:
             type: integer
             format: int64
+          example: 1
       requestBody:
         required: true
         content:
@@ -122,6 +132,8 @@ paths:
               items:
                 type: number
                 format: double
+            example:
+              [3, 4]
       responses:
         "200":
           description: OK
@@ -156,6 +168,7 @@ paths:
           schema:
             type: integer
             format: int64
+          example: 1
       requestBody:
         required: true
         content:
@@ -196,6 +209,7 @@ paths:
           schema:
             type: integer
             format: int64
+          example: 1
       responses:
         "404":
           description: PEDIDO NÃO ENCONTRADO
@@ -255,13 +269,18 @@ components:
         itemsIds:
           type: array
           items:
-            type: number
-            format: double
+            type: integer
+            format: int64
         cep:
           type: string
         number:
           type: integer
           format: int32
+      example:
+        cpf: 09963606547
+        itemsIds: [1]
+        cep: 40140-650
+        number: 5
           
     OrderUpdateRequestDTO:
       type: object
@@ -273,6 +292,10 @@ components:
         number:
           type: integer
           format: int32
+      example:
+        cpf: "28991068561"
+        cep: 40015-900
+        number: 10
     
     OrderResponseDTO:
       type: object
@@ -286,6 +309,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ItemResponseDTO"
+        total:
+          type: number
+          format: double
         address:
           $ref: "#/components/schemas/AddressResponseDTO"
           
@@ -305,7 +331,13 @@ components:
           format: double
         description:
           type: string
-          
+      example: 
+        name: Leite
+        creationDate: 11-01-2023
+        expirationDate: 13-01-2023
+        value: 4.49
+        description: 1L de leite Piracanjuba
+
     ItemResponseDTO:
       type: object
       properties:
@@ -345,6 +377,14 @@ components:
           type: string
         cep:
           type: string
+      example: 
+        id: 1,
+        street: Largo do Farol da Barra,
+        number: 5,
+        district: Barra,
+        city: Salvador,
+        state: BA,
+        cep: 40140-650
           
     Page_OrderResponseDTO:
       type: object
