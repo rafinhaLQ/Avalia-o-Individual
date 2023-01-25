@@ -57,7 +57,7 @@ paths:
           schema:
             type: string
           description: Filtrar os pedidos pelo cpf de quem realizou o pedido.
-          example: 09963606547
+          example: "09963606547"
         - name: sort
           in: query
           schema:
@@ -101,52 +101,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/OrderResponseDTO"
-        "404":
-          description: PEDIDO NÃO ENCONTRADO
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExceptionResponseDTO"
-
-    patch:
-      tags:
-        - Pedido
-      summary: Atualiza os itens de um pedido existente.
-      description: Atualiza os itens de um pedido existente pelo ID.
-      operationId: updateItems
-      parameters:
-        - name: idOrder
-          in: path
-          description: ID do pedido para atualizar os itens.
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: number
-                format: double
-            example:
-              [3, 4]
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrderResponseDTO"
-        "400":
-          description: BAD REQUEST
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ExceptionResponseDTO"
         "404":
           description: PEDIDO NÃO ENCONTRADO
           content:
@@ -217,6 +171,53 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExceptionResponseDTO"
+  
+  /pedidos/itens/{idOrder}:
+    patch:
+      tags:
+        - Pedido
+      summary: Atualiza os itens de um pedido existente.
+      description: Atualiza os itens de um pedido existente pelo ID.
+      operationId: updateItems
+      parameters:
+        - name: idOrder
+          in: path
+          description: ID do pedido para atualizar os itens.
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: number
+                format: double
+            example:
+              [3, 4]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponseDTO"
+        "400":
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExceptionResponseDTO"
+        "404":
+          description: PEDIDO NÃO ENCONTRADO
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExceptionResponseDTO"
                 
   /itens:
     post:
@@ -277,8 +278,8 @@ components:
           type: integer
           format: int32
       example:
-        cpf: 09963606547
-        itemsIds: [1]
+        cpf: "09963606547"
+        itemsIds: [1, 2]
         cep: 40140-650
         number: 5
           
@@ -332,11 +333,11 @@ components:
         description:
           type: string
       example: 
-        name: Leite
-        creationDate: 11-01-2023
-        expirationDate: 13-01-2023
-        value: 4.49
-        description: 1L de leite Piracanjuba
+        name: Batata Palha
+        creationDate: 21-02-2023
+        expirationDate: 21-05-2023
+        value: 19.99
+        description: Batata Palha Tradicional Elma Chips Pacote 425G
 
     ItemResponseDTO:
       type: object
