@@ -52,7 +52,7 @@ curl --location --request POST 'localhost:8080/api/pedidos' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "cpf": "09963606547",
-    "itemsIds": [1],
+    "itemsIds": [1, 2],
     "cep": "40140-650",
     "number": 5
 }'
@@ -161,11 +161,11 @@ POST /api/itens
 
 ```json
 {
-    "name": "Leite",
-    "creationDate": "11-01-2023",
-    "expirationDate": "11-03-2023",
-    "value": 4.49,
-    "description": "1L de Leite Piracanjuba"
+    "name": "Batata Palha",
+    "creationDate": "21-02-2023",
+    "expirationDate": "21-05-2023",
+    "value": 19.99,
+    "description": "Batata Palha Tradicional Elma Chips Pacote 425G"
 }
 ```
 
@@ -175,11 +175,11 @@ POST /api/itens
 curl --location --request POST 'localhost:8080/api/itens' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Leite",
-    "creationDate": "11-01-2023",
-    "expirationDate": "11-03-2023",
-    "value": 4.49,
-    "description": "1L de Leite Piracanjuba"
+    "name": "Batata Palha",
+    "creationDate": "21-02-2023",
+    "expirationDate": "21-05-2023",
+    "value": 19.99,
+    "description": "Batata Palha Tradicional Elma Chips Pacote 425G"
 }'
 ```
 
