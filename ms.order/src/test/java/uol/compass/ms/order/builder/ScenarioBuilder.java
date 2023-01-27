@@ -10,6 +10,7 @@ import uol.compass.ms.order.domain.dto.request.OrderUpdateRequestDTO;
 import uol.compass.ms.order.domain.dto.response.AddressResponseDTO;
 import uol.compass.ms.order.domain.dto.response.ApiViaCepResponseDTO;
 import uol.compass.ms.order.domain.dto.response.ItemResponseDTO;
+import uol.compass.ms.order.domain.dto.response.OrderHistoryResponseDTO;
 import uol.compass.ms.order.domain.dto.response.OrderResponseDTO;
 import uol.compass.ms.order.domain.model.entities.AddressEntity;
 import uol.compass.ms.order.domain.model.entities.ItemEntity;
@@ -46,6 +47,10 @@ public class ScenarioBuilder {
     private static final String CEP_WITHOUT_DASH = "40140650";
 
     private static final Integer NUMBER = Integer.valueOf(5);
+
+    public static OrderHistoryResponseDTO buildOrderHistoryResponseDTO() {
+        return OrderHistoryResponseDTO.builder().id(ID).total(TOTAL).build();
+    }
 
     public static AddressEntity builAddressEntity() {
         return AddressEntity
